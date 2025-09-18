@@ -1,284 +1,577 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head> 
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ACE Micromatic — Training Module (HTML)</title>
-  <style>
-    :root{--accent:#0f62fe;--bg:#0f1720;--muted:#6b7280;--card:#0f1720}
-    *{box-sizing:border-box}
-    body{font-family:Inter,Segoe UI,Roboto,system-ui,Arial;margin:0;background:#f6f8fb;color:#0b1220}
-    header{display:flex;align-items:center;gap:16px;padding:18px 24px;background:white;border-bottom:1px solid #e6edf3}
-    header img
-    {height:44px}
-    .container{display:flex;min-height:calc(100vh - 74px)}
-    nav{width:280px;padding:18px;background:#fff;border-right:1px solid #e6edf3}
-    main{flex:1;padding:28px}
-    .module{padding:12px;border-radius:8px;margin-bottom:8px;cursor:pointer}
-    .module.active{background:linear-gradient(90deg,#eef6ff,#fff);border-left:4px solid var(--accent)}
-    .small{font-size:13px;color:var(--muted)}
-    h1{margin:0;font-size:20px}
-    .lesson-title{font-size:18px;margin:6px 0}
-    .card{background:#fff;padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(10,20,40,0.04);margin-bottom:18px}
-    .media{display:flex;gap:12px;flex-wrap:wrap}
-    .media > *{flex:1;min-width:220px}
-    img.placeholder{width:100%;height:180px;object-fit:cover;border-radius:8px;background:linear-gradient(90deg,#e6eefc,#f3f7ff);display:block}
-    .video{width:100%;height:320px;background:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff}
-    .controls{display:flex;gap:8px;align-items:center}
-    .btn{background:var(--accent);color:white;padding:8px 12px;border-radius:8px;border:0;cursor:pointer}
-    .btn.secondary{background:#eef2ff;color:var(--accent)}
-    footer.controls{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
-    .quiz .q{margin-bottom:12px}
-    .progress{height:8px;background:#e6edf3;border-radius:999px;overflow:hidden}
-    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#60a5fa);width:0%}
-    .note{font-size:13px;color:var(--muted)}
-    .certificate{padding:18px;background:linear-gradient(180deg,#fff,#f8faff);border:2px dashed #dbeafe;border-radius:8px;text-align:center}
-    .hide{display:none}
-    .kbd{background:#111827;color:#fff;padding:2px 6px;border-radius:4px;font-size:12px}
-    @media (max-width:900px){nav{display:none}.container{flex-direction:column}header{justify-content:space-between}}
-  </style>
-</head>
-<body>
-  <header>
-    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='32'%3E%3Crect width='120' height='32' rx='6' fill='%230f62fe'/%3E%3Ctext x='12' y='21' font-family='Segoe UI' font-size='13' fill='white'%3EACE Micromatic%3C/text%3E%3C/svg%3E" alt="logo">
-    <div>
-      <h1>ACE Micromatic — Machining Operations Training</h1>
-      <div class="small">Format: Modular HTML training • Progress saved locally • Exports certificate</div>
-    </div>
-  </header>
-
-  <div class="container">
-    <nav id="toc">
-      <div class="card">
-        <strong>Modules</strong>
-        <div class="small" style="margin-top:6px">Follow the modules in order. Your progress will save locally in this browser.</div>
-      </div>
-
-      <div id="modulesList">
-        <!-- modules injected here -->
-      </div>
-
-      <div class="card" style="margin-top:12px">
-        <div class="small">Module progress</div>
-        <div class="progress" style="margin-top:8px"><i id="progressBar"></i></div>
-        <div style="margin-top:8px;display:flex;align-items:center;justify-content:space-between">
-          <div class="small">Completed: <span id="completedCount">0</span>/<span id="totalCount">0</span></div>
-          <button class="btn" id="resetBtn">Reset</button>
-        </div>
-      </div>
-
-    </nav>
-
-    <main>
-      <div id="contentArea">
-        <!-- content injected here -->
-      </div>
-    </main>
-  </div>
-
-  <template id="moduleItemTpl">
-    <div class="module" data-id="{{id}}">
-      <div><strong>{{title}}</strong></div>
-      <div class="small">{{summary}}</div>
-    </div>
-  </template>
-
-  <template id="moduleContentTpl">
-    <div>
-      <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:start">
-          <div>
-            <div class="lesson-title">{{title}}</div>
-            <div class="small">{{subtitle}}</div>
-          </div>
-          <div class="small">Estimated time: <strong>{{time}}</strong></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Overview</h3>
-        <p>{{overview}}</p>
-        <div class="media">
-          <img class="placeholder" src="{{image1}}" alt="image1">
-          <img class="placeholder" src="{{image2}}" alt="image2">
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Video Demonstration</h3>
-        <div class="video" id="videoPlaceholder">Replace with &lt;video&gt; or embedded URL</div>
-      </div>
-
-      <div class="card">
-        <h3>Key Steps / Best Practices</h3>
-        <ul>
-          {{steps}}
-        </ul>
-      </div>
-
-      <div class="card quiz">
-        <h3>Quick Check</h3>
-        <div class="q"><strong>1.</strong> {{q1}}</div>
-        <div>
-          <label><input type="radio" name="q1" value="a"> {{q1a}}</label><br>
-          <label><input type="radio" name="q1" value="b"> {{q1b}}</label><br>
-          <label><input type="radio" name="q1" value="c"> {{q1c}}</label>
-        </div>
-      </div>
-
-      <footer class="controls card">
-        <div class="note">Tip: Press <span class="kbd">Ctrl+S</span> to save progress manually.</div>
-        <div>
-          <button class="btn secondary" id="prevBtn">Previous</button>
-          <button class="btn" id="nextBtn">Next</button>
-        </div>
-      </footer>
-    </div>
-  </template>
-
-  <script>
-    // ====== Module data (map your document content here) ======
-    const modules = [
-      {
-        id: 'm1', title: 'Introduction — AMG Group', subtitle: 'Company overview & scope', time: '5 mins',
-        summary: 'Introduction to AMG group with images and intro video',
-        overview: 'Brief overview of the AMG group of companies, its areas of operation, and capabilities.',
-        image1: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23eef6ff"/%3E%3Ctext x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="22" fill="%23097"%3EReplace with Company Image%3C/text%3E%3C/svg%3E',
-        image2: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23fff4e6"/%3E%3Ctext x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="22" fill="%23097"%3EReplace with Logo/Team Photo%3C/text%3E%3C/svg%3E',
-        steps: '<li>Company history & milestones</li><li>Product & services summary</li><li>Key facilities and capabilities</li>',
-        q1: 'Which area is NOT typically a part of AMG group?', q1a: 'Manufacturing', q1b: 'Banking', q1c: 'Service Support'
-      },
-      {
-        id: 'm2', title: 'Facing — Operation', subtitle: 'Lathe facing operation', time: '8 mins',
-        summary: 'Definition, tool setup and video demo for Facing operation',
-        overview: 'Facing is a lathe operation in which a cutting tool removes material from the end of a rotating workpiece to produce a flat surface perpendicular to the axis.',
-        image1: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23e6f0ff"/%3E%3Ctext x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23344"%3EFacing tool image placeholder%3C/text%3E%3C/svg%3E',
-        image2: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23f7f7f9"/%3E%3Ctext x="50%" y="50" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23344"%3EFacing machining diagram%3C/text%3E%3C/svg%3E',
-        steps: '<li>Mount the workpiece securely on the spindle</li><li>Select facing tool & set zero</li><li>Perform light passes and check surface finish</li>',
-        q1: 'Facing primarily produces what?', q1a: 'Flat surface perpendicular to axis', q1b: 'Tapered surface', q1c: 'Internal bore'
-      },
-      {
-        id: 'm3', title: 'Turning — Operation', subtitle: 'External turning basics', time: '10 mins',
-        summary: 'Turning definition, examples and demo',
-        overview: 'Turning is a machining process in which a cutting tool removes material from the external surface of a rotating workpiece to produce cylindrical parts like shafts and pins.',
-        image1: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23fff8f0"/%3E%3Ctext x="50%" y="50" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23344"%3ETurning tool image%3C/text%3E%3C/svg%3E',
-        image2: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23f0f7ff"/%3E%3Ctext x="50%" y="50" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23344"%3ETurning process diagram%3C/text%3E%3C/svg%3E',
-        steps: '<li>Choose correct insert/geometry</li><li>Set spindle speed & feed</li><li>Perform rough and finish passes</li>',
-        q1: 'Turning is typically used to make which part?', q1a: 'Shaft', q1b: 'Flat plate', q1c: 'Weld joint'
-      },
-      {
-        id: 'm4', title: 'Tools & Safety', subtitle: 'Holders, inserts & safety', time: '6 mins',
-        summary: 'Tooling types and essential safety precautions',
-        overview: 'Overview of tool holders, inserts, coolant, PPE and safety checks before operation',
-        image1: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23f0fff4"/%3E%3Ctext x="50%" y="50" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23034"%3ETools image placeholder%3C/text%3E%3C/svg%3E',
-        image2: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23fff4fb"/%3E%3Ctext x="50%" y="50" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23344"%3ESafety equipment%3C/text%3E%3C/svg%3E',
-        steps: '<li>Always wear eye protection and gloves where appropriate</li><li>Ensure guards and interlocks are functional</li><li>Check workholding & tool clamping before start</li>',
-        q1: 'Which PPE is essential for turning?', q1a: 'Safety goggles', q1b: 'High heels', q1c: 'Sunglasses'
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ACE Micromatic — Training Module (HTML)</title>
+    <style>
+      :root {
+        --accent: #0f62fe;
+        --bg: #0f1720;
+        --muted: #6b7280;
+        --card: #0f1720;
       }
-    ];
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Inter, Segoe UI, Roboto, system-ui, Arial;
+        margin: 0;
+        background: #f6f8fb;
+        color: #0b1220;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 18px 24px;
+        background: white;
+        border-bottom: 1px solid #e6edf3;
+      }
+      header img {
+        height: 44px;
+      }
+      .container {
+        display: flex;
+        min-height: calc(100vh - 74px);
+      }
+      nav {
+        width: 280px;
+        padding: 18px;
+        background: #fff;
+        border-right: 1px solid #e6edf3;
+      }
+      main {
+        flex: 1;
+        padding: 28px;
+      }
+      .module {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+      }
+      .module.active {
+        background: linear-gradient(90deg, #eef6ff, #fff);
+        border-left: 4px solid var(--accent);
+      }
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      h1 {
+        margin: 0;
+        font-size: 20px;
+      }
+      .lesson-title {
+        font-size: 18px;
+        margin: 6px 0;
+      }
+      .card {
+        background: #fff;
+        padding: 18px;
+        border-radius: 10px;
+        box-shadow: 0 6px 18px rgba(10, 20, 40, 0.04);
+        margin-bottom: 18px;
+      }
+      .media {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .media > * {
+        flex: 1;
+        min-width: 220px;
+      }
+      img.placeholder {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 8px;
+        background: linear-gradient(90deg, #e6eefc, #f3f7ff);
+        display: block;
+      }
+      .video {
+        width: 100%;
+        height: 320px;
+        background: #000;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
+      .controls {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .btn {
+        background: var(--accent);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 0;
+        cursor: pointer;
+      }
+      .btn.secondary {
+        background: #eef2ff;
+        color: var(--accent);
+      }
+      footer.controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 12px;
+      }
+      .quiz .q {
+        margin-bottom: 12px;
+      }
+      .progress {
+        height: 8px;
+        background: #e6edf3;
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      .progress > i {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), #60a5fa);
+        width: 0%;
+      }
+      .note {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .certificate {
+        padding: 18px;
+        background: linear-gradient(180deg, #fff, #f8faff);
+        border: 2px dashed #dbeafe;
+        border-radius: 8px;
+        text-align: center;
+      }
+      .hide {
+        display: none;
+      }
+      .kbd {
+        background: #111827;
+        color: #fff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 12px;
+      }
+      @media (max-width: 900px) {
+        nav {
+          display: none;
+        }
+        .container {
+          flex-direction: column;
+        }
+        header {
+          justify-content: space-between;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img
+        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='32'%3E%3Crect width='120' height='32' rx='6' fill='%230f62fe'/%3E%3Ctext x='12' y='21' font-family='Segoe UI' font-size='13' fill='white'%3EACE Micromatic%3C/text%3E%3C/svg%3E"
+        alt="logo"
+      />
+      <div>
+        <h1>ACE Micromatic — Machining Operations Training</h1>
+        <div class="small">
+          Format: Modular HTML training • Progress saved locally • Exports
+          certificate
+        </div>
+      </div>
+    </header>
 
-    // ====== App state ======
-    const state = { current: 0, answers: {}, completed: new Set() };
+    <div class="container">
+      <nav id="toc">
+        <div class="card">
+          <strong>Modules</strong>
+          <div class="small" style="margin-top: 6px">
+            Follow the modules in order. Your progress will save locally in this
+            browser.
+          </div>
+        </div>
 
-    // ====== Helpers ======
-    function $(sel, ctx=document){return ctx.querySelector(sel)}
-    function $all(sel, ctx=document){return Array.from((ctx||document).querySelectorAll(sel))}
+        <div id="modulesList">
+          <!-- modules injected here -->
+        </div>
 
-    // render TOC
-    function renderTOC(){
-      const list = $('#modulesList'); list.innerHTML = '';
-      modules.forEach((m, i)=>{
-        const div = document.createElement('div'); div.className='module'; div.dataset.id=m.id;
-        if(i===state.current) div.classList.add('active');
-        div.innerHTML = `<div><strong>${m.title}</strong></div><div class="small">${m.summary}</div>`;
-        div.addEventListener('click', ()=>{goTo(i)});
-        list.appendChild(div);
+        <div class="card" style="margin-top: 12px">
+          <div class="small">Module progress</div>
+          <div class="progress" style="margin-top: 8px">
+            <i id="progressBar"></i>
+          </div>
+          <div
+            style="
+              margin-top: 8px;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+            <div class="small">
+              Completed: <span id="completedCount">0</span>/<span
+                id="totalCount"
+                >0</span
+              >
+            </div>
+            <button class="btn" id="resetBtn">Reset</button>
+          </div>
+        </div>
+      </nav>
+
+      <main>
+        <div id="contentArea">
+          <!-- content injected here -->
+        </div>
+      </main>
+    </div>
+
+    <template id="moduleItemTpl">
+      <div class="module" data-id="{{id}}">
+        <div><strong>{{title}}</strong></div>
+        <div class="small">{{summary}}</div>
+      </div>
+    </template>
+
+    <template id="moduleContentTpl">
+      <div>
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: start;
+            "
+          >
+            <div>
+              <div class="lesson-title">{{title}}</div>
+              <div class="small">{{subtitle}}</div>
+            </div>
+            <div class="small">Estimated time: <strong>{{time}}</strong></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Overview</h3>
+          <p>{{overview}}</p>
+          <div class="media">
+            <img class="placeholder" src="{{image1}}" alt="image1" />
+            <img class="placeholder" src="{{image2}}" alt="image2" />
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Video Demonstration</h3>
+          <div class="video" id="videoPlaceholder">
+            Replace with &lt;video&gt; or embedded URL
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Key Steps / Best Practices</h3>
+          <ul>
+            {{steps}}
+          </ul>
+        </div>
+
+        <div class="card quiz">
+          <h3>Quick Check</h3>
+          <div class="q"><strong>1.</strong> {{q1}}</div>
+          <div>
+            <label><input type="radio" name="q1" value="a" /> {{q1a}}</label
+            ><br />
+            <label><input type="radio" name="q1" value="b" /> {{q1b}}</label
+            ><br />
+            <label><input type="radio" name="q1" value="c" /> {{q1c}}</label>
+          </div>
+        </div>
+
+        <footer class="controls card">
+          <div class="note">
+            Tip: Press <span class="kbd">Ctrl+S</span> to save progress
+            manually.
+          </div>
+          <div>
+            <button class="btn secondary" id="prevBtn">Previous</button>
+            <button class="btn" id="nextBtn">Next</button>
+          </div>
+        </footer>
+      </div>
+    </template>
+
+    <script>
+      // ====== Module data (map your document content here) ======
+      const modules = [
+        {
+          id: "m1",
+          title: "Introduction — AMG Group",
+          subtitle: "Company overview & scope",
+          time: "5 mins",
+          summary: "Introduction to AMG group with images and intro video",
+          overview:
+            "Brief overview of the AMG group of companies, its areas of operation, and capabilities.",
+          image1:
+            'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23eef6ff"/%3E%3Ctext x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="22" fill="%23097"%3EReplace with Company Image%3C/text%3E%3C/svg%3E',
+          image2:
+            'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23fff4e6"/%3E%3Ctext x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="22" fill="%23097"%3EReplace with Logo/Team Photo%3C/text%3E%3C/svg%3E',
+          steps:
+            "<li>Company history & milestones</li><li>Product & services summary</li><li>Key facilities and capabilities</li>",
+          q1: "Which area is NOT typically a part of AMG group?",
+          q1a: "Manufacturing",
+          q1b: "Banking",
+          q1c: "Service Support",
+        },
+        {
+          id: "m2",
+          title: "Facing — Operation",
+          subtitle: "Lathe facing operation",
+          time: "8 mins",
+          summary: "Definition, tool setup and video demo for Facing operation",
+          overview:
+            "Facing is a lathe operation in which a cutting tool removes material from the end of a rotating workpiece to produce a flat surface perpendicular to the axis.",
+          image1:
+            'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23e6f0ff"/%3E%3Ctext x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23344"%3EFacing tool image placeholder%3C/text%3E%3C/svg%3E',
+          image2:
+            'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23f7f7f9"/%3E%3Ctext x="50%" y="50" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23344"%3EFacing machining diagram%3C/text%3E%3C/svg%3E',
+          steps:
+            "<li>Mount the workpiece securely on the spindle</li><li>Select facing tool & set zero</li><li>Perform light passes and check surface finish</li>",
+          q1: "Facing primarily produces what?",
+          q1a: "Flat surface perpendicular to axis",
+          q1b: "Tapered surface",
+          q1c: "Internal bore",
+        },
+        {
+          id: "m3",
+          title: "Turning — Operation",
+          subtitle: "External turning basics",
+          time: "10 mins",
+          summary: "Turning definition, examples and demo",
+          overview:
+            "Turning is a machining process in which a cutting tool removes material from the external surface of a rotating workpiece to produce cylindrical parts like shafts and pins.",
+          image1:
+            'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23fff8f0"/%3E%3Ctext x="50%" y="50" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23344"%3ETurning tool image%3C/text%3E%3C/svg%3E',
+          image2:
+            'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23f0f7ff"/%3E%3Ctext x="50%" y="50" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23344"%3ETurning process diagram%3C/text%3E%3C/svg%3E',
+          steps:
+            "<li>Choose correct insert/geometry</li><li>Set spindle speed & feed</li><li>Perform rough and finish passes</li>",
+          q1: "Turning is typically used to make which part?",
+          q1a: "Shaft",
+          q1b: "Flat plate",
+          q1c: "Weld joint",
+        },
+        {
+          id: "m4",
+          title: "Tools & Safety",
+          subtitle: "Holders, inserts & safety",
+          time: "6 mins",
+          summary: "Tooling types and essential safety precautions",
+          overview:
+            "Overview of tool holders, inserts, coolant, PPE and safety checks before operation",
+          image1:
+            'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23f0fff4"/%3E%3Ctext x="50%" y="50" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23034"%3ETools image placeholder%3C/text%3E%3C/svg%3E',
+          image2:
+            'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="400"%3E%3Crect width="100%" height="100%" fill="%23fff4fb"/%3E%3Ctext x="50%" y="50" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="%23344"%3ESafety equipment%3C/text%3E%3C/svg%3E',
+          steps:
+            "<li>Always wear eye protection and gloves where appropriate</li><li>Ensure guards and interlocks are functional</li><li>Check workholding & tool clamping before start</li>",
+          q1: "Which PPE is essential for turning?",
+          q1a: "Safety goggles",
+          q1b: "High heels",
+          q1c: "Sunglasses",
+        },
+      ];
+
+      // ====== App state ======
+      const state = { current: 0, answers: {}, completed: new Set() };
+
+      // ====== Helpers ======
+      function $(sel, ctx = document) {
+        return ctx.querySelector(sel);
+      }
+      function $all(sel, ctx = document) {
+        return Array.from((ctx || document).querySelectorAll(sel));
+      }
+
+      // render TOC
+      function renderTOC() {
+        const list = $("#modulesList");
+        list.innerHTML = "";
+        modules.forEach((m, i) => {
+          const div = document.createElement("div");
+          div.className = "module";
+          div.dataset.id = m.id;
+          if (i === state.current) div.classList.add("active");
+          div.innerHTML = `<div><strong>${m.title}</strong></div><div class="small">${m.summary}</div>`;
+          div.addEventListener("click", () => {
+            goTo(i);
+          });
+          list.appendChild(div);
+        });
+        $("#totalCount").textContent = modules.length;
+      }
+
+      // render module content
+      function renderContent() {
+        const m = modules[state.current];
+        const tpl = $("#moduleContentTpl").innerHTML;
+        const html = tpl
+          .replace(/{{title}}/g, escapeHtml(m.title))
+          .replace(/{{subtitle}}/g, escapeHtml(m.subtitle))
+          .replace(/{{time}}/g, m.time)
+          .replace(/{{overview}}/g, escapeHtml(m.overview))
+          .replace(/{{image1}}/g, m.image1)
+          .replace(/{{image2}}/g, m.image2)
+          .replace(/{{steps}}/g, m.steps)
+          .replace(/{{q1}}/g, escapeHtml(m.q1))
+          .replace(/{{q1a}}/g, escapeHtml(m.q1a))
+          .replace(/{{q1b}}/g, escapeHtml(m.q1b))
+          .replace(/{{q1c}}/g, escapeHtml(m.q1c));
+        $("#contentArea").innerHTML = html;
+
+        // bind controls
+        $("#prevBtn").addEventListener("click", () => {
+          if (state.current > 0) goTo(state.current - 1);
+        });
+        $("#nextBtn").addEventListener("click", () => {
+          handleNext();
+        });
+
+        // restore radio if answered
+        const ans = state.answers[m.id];
+        if (ans) {
+          const r = $(`input[name='q1'][value='${ans}']`);
+          if (r) r.checked = true;
+        }
+
+        // track completion if quiz answered correctly
+      }
+
+      function handleNext() {
+        const m = modules[state.current];
+        const selected = $(`input[name='q1']:checked`);
+        if (selected) {
+          state.answers[m.id] = selected.value;
+        }
+        // simple correctness check (first option is a)
+        if (selected && selected.value === "a") state.completed.add(m.id);
+        saveState();
+        updateProgress();
+        if (state.current < modules.length - 1) goTo(state.current + 1);
+        else showCompletion();
+      }
+
+      function goTo(idx) {
+        state.current = idx;
+        renderTOC();
+        renderContent();
+      }
+
+      function updateProgress() {
+        const done = state.completed.size;
+        const total = modules.length;
+        const pct = Math.round((done / total) * 100);
+        $("#progressBar").style.width = pct + "%";
+        $("#completedCount").textContent = done;
+      }
+
+      function saveState() {
+        localStorage.setItem(
+          "ace_training_v1",
+          JSON.stringify({
+            current: state.current,
+            answers: state.answers,
+            completed: Array.from(state.completed),
+          })
+        );
+      }
+      function loadState() {
+        const s = localStorage.getItem("ace_training_v1");
+        if (!s) return;
+        try {
+          const d = JSON.parse(s);
+          state.current = d.current || 0;
+          state.answers = d.answers || {};
+          state.completed = new Set(d.completed || []);
+        } catch (e) {}
+      }
+      function resetState() {
+        if (confirm("Reset progress?")) {
+          localStorage.removeItem("ace_training_v1");
+          state.current = 0;
+          state.answers = {};
+          state.completed = new Set();
+          renderTOC();
+          renderContent();
+          updateProgress();
+        }
+      }
+
+      function showCompletion() {
+        const html = `<div class="card certificate"><h2>Training completed</h2><p>You've completed the ACE Micromatic machining operations module.</p><p><button class="btn" id="downloadCert">Download Certificate</button></p></div>`;
+        $("#contentArea").innerHTML = html;
+        $("#downloadCert").addEventListener("click", () => {
+          downloadCertificate();
+        });
+      }
+
+      function downloadCertificate() {
+        const canvas = document.createElement("canvas");
+        canvas.width = 1200;
+        canvas.height = 675;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#08306b";
+        ctx.font = "36px serif";
+        ctx.fillText("Certificate of Completion", 60, 120);
+        ctx.fillStyle = "#111";
+        ctx.font = "28px serif";
+        ctx.fillText(
+          "This certifies that the learner has completed the",
+          60,
+          190
+        );
+        ctx.font = "30px serif";
+        ctx.fillText("ACE Micromatic — Machining Operations Module", 60, 240);
+        ctx.font = "22px serif";
+        ctx.fillText("Date: " + new Date().toLocaleDateString(), 60, 320);
+        const data = canvas.toDataURL("image/png");
+        const a = document.createElement("a");
+        a.href = data;
+        a.download = "ACE_Micromatic_certificate.png";
+        a.click();
+      }
+
+      function escapeHtml(s) {
+        return (s || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      // keyboard shortcuts
+      window.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.key.toLowerCase() === "s") {
+          e.preventDefault();
+          saveState();
+          alert("Progress saved locally.");
+        }
+        if (e.key === "ArrowRight") handleNext();
+        if (e.key === "ArrowLeft" && state.current > 0) goTo(state.current - 1);
       });
-      $('#totalCount').textContent = modules.length;
-    }
 
-    // render module content
-    function renderContent(){
-      const m = modules[state.current];
-      const tpl = $('#moduleContentTpl').innerHTML;
-      const html = tpl.replace(/{{title}}/g, escapeHtml(m.title))
-                      .replace(/{{subtitle}}/g, escapeHtml(m.subtitle))
-                      .replace(/{{time}}/g, m.time)
-                      .replace(/{{overview}}/g, escapeHtml(m.overview))
-                      .replace(/{{image1}}/g, m.image1)
-                      .replace(/{{image2}}/g, m.image2)
-                      .replace(/{{steps}}/g, m.steps)
-                      .replace(/{{q1}}/g, escapeHtml(m.q1))
-                      .replace(/{{q1a}}/g, escapeHtml(m.q1a))
-                      .replace(/{{q1b}}/g, escapeHtml(m.q1b))
-                      .replace(/{{q1c}}/g, escapeHtml(m.q1c));
-      $('#contentArea').innerHTML = html;
-
-      // bind controls
-      $('#prevBtn').addEventListener('click', ()=>{if(state.current>0) goTo(state.current-1)});
-      $('#nextBtn').addEventListener('click', ()=>{handleNext()});
-
-      // restore radio if answered
-      const ans = state.answers[m.id];
-      if(ans){ const r = $(`input[name='q1'][value='${ans}']`); if(r) r.checked=true }
-
-      // track completion if quiz answered correctly
-    }
-
-    function handleNext(){
-      const m = modules[state.current];
-      const selected = $(`input[name='q1']:checked`);
-      if(selected){ state.answers[m.id] = selected.value; }
-      // simple correctness check (first option is a)
-      if(selected && selected.value === 'a') state.completed.add(m.id);
-      saveState(); updateProgress();
-      if(state.current < modules.length-1) goTo(state.current+1);
-      else showCompletion();
-    }
-
-    function goTo(idx){ state.current = idx; renderTOC(); renderContent(); }
-
-    function updateProgress(){
-      const done = state.completed.size; const total = modules.length;
-      const pct = Math.round((done/total)*100);
-      $('#progressBar').style.width = pct + '%';
-      $('#completedCount').textContent = done;
-    }
-
-    function saveState(){ localStorage.setItem('ace_training_v1', JSON.stringify({current:state.current,answers:state.answers,completed:Array.from(state.completed)})) }
-    function loadState(){ const s = localStorage.getItem('ace_training_v1'); if(!s) return; try{ const d=JSON.parse(s); state.current=d.current||0; state.answers=d.answers||{}; state.completed=new Set(d.completed||[]) }catch(e){} }
-    function resetState(){ if(confirm('Reset progress?')){ localStorage.removeItem('ace_training_v1'); state.current=0; state.answers={}; state.completed=new Set(); renderTOC(); renderContent(); updateProgress(); }}
-
-    function showCompletion(){
-      const html = `<div class="card certificate"><h2>Training completed</h2><p>You've completed the ACE Micromatic machining operations module.</p><p><button class="btn" id="downloadCert">Download Certificate</button></p></div>`;
-      $('#contentArea').innerHTML = html;
-      $('#downloadCert').addEventListener('click', ()=>{downloadCertificate()});
-    }
-
-    function downloadCertificate(){
-      const canvas = document.createElement('canvas'); canvas.width=1200; canvas.height=675; const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
-      ctx.fillStyle='#08306b'; ctx.font='36px serif'; ctx.fillText('Certificate of Completion', 60,120);
-      ctx.fillStyle='#111'; ctx.font='28px serif'; ctx.fillText('This certifies that the learner has completed the', 60,190);
-      ctx.font='30px serif'; ctx.fillText('ACE Micromatic — Machining Operations Module', 60,240);
-      ctx.font='22px serif'; ctx.fillText('Date: '+(new Date()).toLocaleDateString(), 60,320);
-      const data = canvas.toDataURL('image/png');
-      const a = document.createElement('a'); a.href=data; a.download='ACE_Micromatic_certificate.png'; a.click();
-    }
-
-    function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
-
-    // keyboard shortcuts
-    window.addEventListener('keydown', (e)=>{
-      if(e.ctrlKey && e.key.toLowerCase()==='s'){ e.preventDefault(); saveState(); alert('Progress saved locally.'); }
-      if(e.key==='ArrowRight') handleNext();
-      if(e.key==='ArrowLeft' && state.current>0) goTo(state.current-1);
-    });
-
-    // init
-    loadState(); renderTOC(); renderContent(); updateProgress();
-    $('#resetBtn').addEventListener('click', resetState);
-
-  </script>
-</body>
+      // init
+      loadState();
+      renderTOC();
+      renderContent();
+      updateProgress();
+      $("#resetBtn").addEventListener("click", resetState);
+    </script>
+  </body>
 </html>
