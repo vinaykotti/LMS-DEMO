@@ -7,20 +7,19 @@
     <style>
       :root {
         --accent: #0f62fe;
-        --bg: #0f1720;
         --muted: #6b7280;
-        --card: #0f1720;
         --header-height: 74px;
+        --nav-width: 280px;
       }
-      * { box-sizing: border-box; }
+      * {
+        box-sizing: border-box;
+      }
       body {
         font-family: Inter, "Segoe UI", Roboto, system-ui, Arial;
         margin: 0;
         background: #f6f8fb;
         color: #0b1220;
       }
-
-      /* FIXED HEADER */
       header {
         position: fixed;
         top: 0;
@@ -31,79 +30,200 @@
         align-items: center;
         gap: 16px;
         padding: 12px 24px;
-        background: rgba(255,255,255,0.98);
+        background: rgba(255, 255, 255, 0.98);
         border-bottom: 1px solid #e6edf3;
         z-index: 1000;
         backdrop-filter: blur(4px);
       }
-      header img { height: 44px; }
+      header img {
+        height: 44px;
+      }
+      .site-title {
+        display: flex;
+        flex-direction: column;
+      }
+      .site-title h1 {
+        margin: 0;
+        font-size: 18px;
+      }
+      .page-body {
+        padding-top: calc(var(--header-height) + 10px);
+      }
+      /* fixed left nav */
+      nav {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        bottom: 0;
+        width: var(--nav-width);
+        padding: 18px;
+        background: #fff;
+        border-right: 1px solid #e6edf3;
+        overflow: auto;
+      }
+      main {
+        margin-left: var(--nav-width);
+        padding: 28px;
+        min-height: calc(100vh - var(--header-height) - 10px);
+      }
+      .card {
+        background: #fff;
+        padding: 18px;
+        border-radius: 10px;
+        box-shadow: 0 6px 18px rgba(10, 20, 40, 0.04);
+        margin-bottom: 18px;
+      }
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .smallsteps {
+        font-size: 15px;
+        line-height: 1.8;
+      }
+      .module {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+      }
+      .module.active {
+        background: linear-gradient(90deg, #eef6ff, #fff);
+        border-left: 4px solid var(--accent);
+      }
+      .lesson-title {
+        font-size: 18px;
+        margin: 6px 0;
+      }
+      .btn {
+        background: var(--accent);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 0;
+        cursor: pointer;
+      }
+      .btn.secondary {
+        background: #eef2ff;
+        color: var(--accent);
+      }
+      .kbd {
+        background: #111827;
+        color: #fff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 12px;
+      }
+      .note {
+        font-size: 13px;
+        color: var(--muted);
+      }
 
-      .page-body { padding-top: calc(var(--header-height) + 10px); }
-      .container { display: block; min-height: calc(100vh - var(--header-height) - 10px); }
-nav {
-  position: fixed;
-  top: var(--header-height);
-  left: 0;
-  bottom: 0;
-  width: 280px;
-  padding: 18px;
-  background: #fff;
-  border-right: 1px solid #e6edf3;
-  overflow-y: auto;  /* scroll if menu gets long */
-}      
-main {
-  margin-left: 280px; /* same as nav width */
-  padding: 28px;
-}
+      /* Combined media card tabs */
+      .tabs {
+        display: flex;
+        gap: 8px;
+        border-bottom: 1px solid #eef3fb;
+        margin-bottom: 12px;
+      }
+      .tab {
+        padding: 8px 12px;
+        border-radius: 8px 8px 0 0;
+        background: #f8fafc;
+        cursor: pointer;
+        color: var(--muted);
+      }
+      .tab.active {
+        background: #fff;
+        color: #0b1220;
+        border: 1px solid #eef3fb;
+        border-bottom: 1px solid #fff;
+      }
+      .tab.hidden {
+        display: none;
+      }
 
-      .module { padding: 12px; border-radius: 8px; margin-bottom: 8px; cursor: pointer; }
-      .module.active { background: linear-gradient(90deg,#eef6ff,#fff); border-left: 4px solid var(--accent); }
-      .small { font-size: 13px; color: var(--muted); }
+      /* carousel */
+      .carousel {
+        position: relative;
+        max-width: 100%;
+        overflow: hidden;
+        border-radius: 8px;
+      }
+      .carousel-window {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f3f6fb;
+      }
+      .carousel-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(15, 98, 254, 0.8);
+        border: none;
+        color: #fff;
+        font-size: 22px;
+        padding: 8px 12px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 2;
+      }
+      .carousel-btn.prev {
+        left: 12px;
+      }
+      .carousel-btn.next {
+        right: 12px;
+      }
+      .carousel-dots {
+        text-align: center;
+        margin-top: 8px;
+      }
+      .carousel-dots span {
+        height: 10px;
+        width: 10px;
+        margin: 0 4px;
+        display: inline-block;
+        background: #ddd;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .carousel-dots span.active {
+        background: var(--accent);
+      }
 
-      .site-title { display:flex; flex-direction:column; align-items:flex-start; gap:6px; }
-      .site-title h1 { margin: 0; font-size: 18px; line-height: 1; }
-      .site-title .subtitle { font-size: 13px; color: var(--muted); }
+      /* video */
+      .video-wrap {
+        width: 100%;
+        height: 320px;
+        background: #000;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
 
-      .lesson-title { font-size: 18px; margin: 6px 0; }
-      .card { background: #fff; padding: 18px; border-radius: 10px; box-shadow: 0 6px 18px rgba(10,20,40,0.04); margin-bottom: 18px; }
-      .media { display:flex; gap:12px; flex-wrap:wrap; }
-      .media > * { flex:1; min-width:220px; }
-      img.placeholder { width:100%; height:350px; object-fit:cover; border-radius:8px; background: linear-gradient(90deg,#e6eefc,#f3f7ff); display:block; }
-
-      .video { width:100%; height:320px; background:#000; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; }
-
-      .controls { display:flex; gap:8px; align-items:center; }
-      .btn { background: var(--accent); color: white; padding: 8px 12px; border-radius: 8px; border:0; cursor:pointer; }
-      .btn.secondary { background:#eef2ff; color:var(--accent); }
-
-      footer.controls { display:flex; justify-content:space-between; align-items:center; margin-top:12px; }
-      .quiz .q { margin-bottom:12px; }
-
-      .progress { height:8px; background:#e6edf3; border-radius:999px; overflow:hidden; }
-      .progress > i { display:block; height:100%; background: linear-gradient(90deg,var(--accent),#60a5fa); width:0%; }
-
-      .note { font-size:13px; color:var(--muted); }
-      .certificate { padding:18px; background: linear-gradient(180deg,#fff,#f8faff); border:2px dashed #dbeafe; border-radius:8px; text-align:center; }
-      .kbd { background:#111827; color:#fff; padding:2px 6px; border-radius:4px; font-size:12px; }
-
-      /* Carousel styles */
-      .carousel { position: relative; max-width: 100%; margin-top: 12px; overflow: hidden; }
-      .carousel-window { width:100%; height:100%; border-radius:8px; overflow:hidden; background:#f3f6fb; display:flex; align-items:center; justify-content:center; }
-      .carousel-image { width:100%; height:100%; object-fit:cover; display:block; }
-      .carousel-btn { position:absolute; top:50%; transform:translateY(-50%); background: rgba(15,98,254,0.8); border:none; color:#fff; font-size:22px; padding:8px 12px; border-radius:50%; cursor:pointer; z-index:2; }
-      .carousel-btn:hover{ background: rgba(15,98,254,0.95); }
-      .carousel-btn.prev { left:12px; }
-      .carousel-btn.next { right:12px; }
-      .carousel-dots { text-align:center; margin-top:8px; }
-      .carousel-dots span { height:10px; width:10px; margin:0 4px; display:inline-block; background:#ddd; border-radius:50%; cursor:pointer; }
-      .carousel-dots span.active { background: var(--accent); }
-
-      @media (max-width:900px) {
-        nav { display:none; }
-        .container { flex-direction:column; }
-        header { justify-content:space-between; }
-        .site-title { align-items:center; text-align:center; }
-        .carousel-window { height:200px; }
+      @media (max-width: 900px) {
+        nav {
+          display: none;
+        }
+        main {
+          margin-left: 0;
+          padding: 18px;
+        }
+        .carousel-window,
+        .video-wrap {
+          height: 200px;
+        }
       }
     </style>
   </head>
@@ -112,45 +232,56 @@ main {
       <img src="/images/logo.png" alt="logo" />
       <div class="site-title">
         <h1>ACE Micromatic — Machining Operations Training</h1>
-        <div class="subtitle">Format: Modular HTML training • Progress saved locally • Exports certificate</div>
+        <div class="small">
+          Modular HTML training • Progress saved locally • Compact media card
+        </div>
       </div>
-
-      <div style="flex:1"></div>
-
-      <div style="display:flex;gap:8px;align-items:center">
+      <div style="flex: 1"></div>
+      <div style="display: flex; gap: 8px; align-items: center">
         <button class="btn secondary" id="resetBtn">Reset</button>
       </div>
     </header>
 
     <div class="page-body">
-      <div class="container">
-        <nav id="toc">
+      <nav id="toc">
+        <div class="card">
+          <strong>Modules</strong>
+          <div class="small" style="margin-top: 6px">
+            Click a lesson to load content.
+          </div>
+        </div>
+        <div id="modulesList"></div>
+        <div class="card" style="margin-top: 12px">
+          <div class="small">Progress</div>
+          <div class="small" style="margin-top: 6px">
+            Completed: <span id="completedCount">0</span>/<span id="totalCount"
+              >0</span
+            >
+          </div>
+        </div>
+      </nav>
+
+      <main>
+        <div id="contentArea">
           <div class="card">
-            <strong>Modules</strong>
-            <div class="small" style="margin-top:6px">Follow the modules in order. Your progress will save locally in this browser.</div>
+            <h2>Welcome</h2>
+            <p>Select a module to begin.</p>
           </div>
-
-          <div id="modulesList"></div>
-
-          <div class="card" style="margin-top:12px">
-            <div class="small">Module progress</div>
-            <div class="progress" style="margin-top:8px"><i id="progressBar"></i></div>
-            <div style="margin-top:8px;display:flex;align-items:center;justify-content:space-between">
-              <div class="small">Completed: <span id="completedCount">0</span>/<span id="totalCount">0</span></div>
-            </div>
-          </div>
-        </nav>
-
-        <main>
-          <div id="contentArea"></div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
 
+    <!-- module template (uses tabs inside one media card) -->
     <template id="moduleContentTpl">
       <div>
         <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:start">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: start;
+            "
+          >
             <div>
               <div class="lesson-title">{{title}}</div>
               <div class="small">{{subtitle}}</div>
@@ -159,177 +290,213 @@ main {
           </div>
         </div>
 
-        <!-- Overview with carousel -->
+        <!-- Combined media card -->
         <div class="card">
-          <h3>Overview</h3>
-          <p>{{overview}}</p>
-
-          <div class="carousel">
-            <button class="carousel-btn prev" aria-label="Previous">&#10094;</button>
-            <div class="carousel-window">
-              <!-- default image; JS will update src -->
-              <img class="carousel-image" src="/images/Picture1.png" alt="slide" />
-            </div>
-            <button class="carousel-btn next" aria-label="Next">&#10095;</button>
-            <div class="carousel-dots"></div>
+          <div class="tabs">
+            <div class="tab tab-images">Images</div>
+            <div class="tab tab-video">Video</div>
+            <div class="tab tab-steps">Steps</div>
           </div>
 
+          <div class="media-content">
+            <div class="media-images" style="display: none">
+              <div class="carousel">
+                <button class="carousel-btn prev" aria-label="Previous">
+                  &#10094;
+                </button>
+                <div class="carousel-window">
+                  <img
+                    class="carousel-image"
+                    src="/images/Picture1.png"
+                    alt="slide"
+                  />
+                </div>
+                <button class="carousel-btn next" aria-label="Next">
+                  &#10095;
+                </button>
+              </div>
+              <div
+                class="carousel-dots"
+                style="text-align: center; margin-top: 8px"
+              ></div>
+            </div>
+
+            <div class="media-video" style="display: none">
+              <div class="video-wrap" id="videoPlaceholder">
+                Replace with video or embed
+              </div>
+            </div>
+
+            <div class="media-steps" style="display: none">
+              <ul class="smallsteps">
+                {{steps}}
+              </ul>
+            </div>
+          </div>
         </div>
 
-        <div class="card">
-          <h3>Video Demonstration</h3>
-          <div class="video" id="videoPlaceholder">Replace with &lt;video&gt; or embedded URL</div>
-        </div>
-
-        <div class="card">
-          <h3>Key Steps / Best Practices</h3>
-          <ul>{{steps}}</ul>
-        </div>
-
+        <!-- Quick check and controls -->
         <div class="card quiz">
           <h3>Quick Check</h3>
           <div class="q"><strong>1.</strong> {{q1}}</div>
           <div>
-            <label><input type="radio" name="q1" value="a" /> {{q1a}}</label><br />
-            <label><input type="radio" name="q1" value="b" /> {{q1b}}</label><br />
+            <label><input type="radio" name="q1" value="a" /> {{q1a}}</label
+            ><br />
+            <label><input type="radio" name="q1" value="b" /> {{q1b}}</label
+            ><br />
             <label><input type="radio" name="q1" value="c" /> {{q1c}}</label>
           </div>
         </div>
 
         <footer class="controls card">
-          <div class="note">Tip: Press <span class="kbd">Ctrl+S</span> to save progress manually.</div>
           <div>
             <button class="btn secondary" id="prevBtn">Previous</button>
-            <button class="btn" id="nextBtn">Next</button>
+            <button style="float: right" class="btn" id="nextBtn">Next</button>
+          </div>
+          <div class="note">
+            Tip: use tabs to switch Images / Video / Steps without extra
+            scrolling.
           </div>
         </footer>
       </div>
     </template>
 
     <script>
-      /* ===== utilities and carousel initializer ===== */
-      function $(sel, ctx=document){ return ctx.querySelector(sel); }
-      function $all(sel, ctx=document){ return Array.from((ctx||document).querySelectorAll(sel)); }
+      // utilities
+      function $(sel, ctx = document) {
+        return ctx.querySelector(sel);
+      }
+      function $all(sel, ctx = document) {
+        return Array.from((ctx || document).querySelectorAll(sel));
+      }
+      function escapeHtml(s) {
+        return (s || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
 
-      // safe query within a root
-      function safeQuery(selector, root=document){ return root.querySelector(selector); }
-
-      // reusable carousel initializer
-      function initCarousel(container, images){
+      // carousel initializer (same as earlier, modular)
+      function initCarousel(container, images) {
         if (!container || !images || !images.length) return;
-        // locate elements inside container
-        let windowImg = safeQuery('.carousel-window img', container);
-        const btnPrev = safeQuery('.carousel-btn.prev', container);
-        const btnNext = safeQuery('.carousel-btn.next', container);
-        let dotsContainer = safeQuery('.carousel-dots', container);
+        let windowImg = container.querySelector(".carousel-window img");
+        const btnPrev = container.querySelector(".carousel-btn.prev");
+        const btnNext = container.querySelector(".carousel-btn.next");
+        const dotsContainer = container.querySelector(".carousel-dots");
 
-        // if no image element exists, create structure
         if (!windowImg) {
-          const win = document.createElement('div');
-          win.className = 'carousel-window';
-          const imgEl = document.createElement('img');
-          imgEl.className = 'carousel-image';
-          win.appendChild(imgEl);
+          const win = document.createElement("div");
+          win.className = "carousel-window";
+          const img = document.createElement("img");
+          img.className = "carousel-image";
+          win.appendChild(img);
           container.insertBefore(win, container.firstChild);
-          windowImg = imgEl;
+          windowImg = img;
         }
-
-        if (!dotsContainer) {
-          dotsContainer = document.createElement('div');
-          dotsContainer.className = 'carousel-dots';
-          container.appendChild(dotsContainer);
-        }
+        // build dots
+        dotsContainer.innerHTML = "";
+        images.forEach((_, i) => {
+          const dot = document.createElement("span");
+          dot.addEventListener("click", () => {
+            idx = i;
+            render();
+          });
+          dotsContainer.appendChild(dot);
+        });
 
         let idx = 0;
         function render() {
           windowImg.src = images[idx];
-          const dots = container.querySelectorAll('.carousel-dots span');
-          dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+          dotsContainer
+            .querySelectorAll("span")
+            .forEach((d, i) => d.classList.toggle("active", i === idx));
         }
+        if (btnPrev)
+          btnPrev.addEventListener("click", () => {
+            idx = (idx - 1 + images.length) % images.length;
+            render();
+          });
+        if (btnNext)
+          btnNext.addEventListener("click", () => {
+            idx = (idx + 1) % images.length;
+            render();
+          });
 
-        // build dots
-        dotsContainer.innerHTML = '';
-        images.forEach((_, i) => {
-          const dot = document.createElement('span');
-          dot.addEventListener('click', () => { idx = i; render(); });
-          dotsContainer.appendChild(dot);
-        });
-
-        if (btnPrev) btnPrev.addEventListener('click', () => { idx = (idx - 1 + images.length) % images.length; render(); });
-        if (btnNext) btnNext.addEventListener('click', () => { idx = (idx + 1) % images.length; render(); });
-
-        // initial render
         render();
       }
 
-      // ====== Module data ======
+      // modules (can include images array, and/or video url)
       const modules = [
         {
           id: "m1",
           title: "Introduction — AMG Group",
           subtitle: "Company overview & scope",
           time: "5 mins",
-          summary: "Introduction to AMG group with images and intro video",
-          overview: "Brief overview of the AMG group of companies, its areas of operation, and capabilities.",
-          // you can provide an array of images specifically for the carousel
-          images: ["/images/Picture1.png","/images/Picture2.png","/images/Picture3.png","/images/Picture4.png"],
-          steps: "<li>Company history & milestones</li><li>Product & services summary</li><li>Key facilities and capabilities</li>",
+          summary: "Intro + images + video",
+          images: [
+            "/images/Picture1.png",
+            "/images/Picture2.png",
+            "/images/Picture3.png",
+            "/images/Picture4.png",
+          ],
+          video: "", // blank if none; can be "https://www.youtube.com/watch?v=xxx" or file URL
+          steps:
+            "<li>Company history & milestones</li><li>Product summary</li><li>Key capabilities</li>",
           q1: "Which area is NOT typically a part of AMG group?",
           q1a: "Manufacturing",
           q1b: "Banking",
-          q1c: "Service Support"
+          q1c: "Service Support",
         },
         {
           id: "m2",
           title: "Facing — Operation",
           subtitle: "Lathe facing operation",
           time: "8 mins",
-          summary: "Definition, tool setup and video demo for Facing operation",
-          overview: "Facing is a lathe operation in which a cutting tool removes material from the end of a rotating workpiece to produce a flat surface perpendicular to the axis.",
-          image1: "/images/Picture2.png",
-          image2: "/images/Picture1.png",
-          steps: "<li>Mount the workpiece securely on the spindle</li><li>Select facing tool & set zero</li><li>Perform light passes and check surface finish</li>",
+          summary: "Facing description and setup",
+          images: [], // no images for facing
+          video: "", // no video — will hide both tabs if empty; steps visible
+          steps:
+            "<li>Mount workpiece</li><li>Select tool & set zero</li><li>Check finish</li>",
           q1: "Facing primarily produces what?",
           q1a: "Flat surface perpendicular to axis",
           q1b: "Tapered surface",
-          q1c: "Internal bore"
+          q1c: "Internal bore",
         },
         {
           id: "m3",
           title: "Turning — Operation",
           subtitle: "External turning basics",
           time: "10 mins",
-          summary: "Turning definition, examples and demo",
-          overview: "Turning is a machining process in which a cutting tool removes material from the external surface of a rotating workpiece to produce cylindrical parts like shafts and pins.",
-          image1: "/images/Picture3.png",
-          image2: "/images/Picture4.png",
-          steps: "<li>Choose correct insert/geometry</li><li>Set spindle speed & feed</li><li>Perform rough and finish passes</li>",
+          summary: "Turning overview",
+          images: ["/images/Picture9.png"],
+          video: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // example
+          steps:
+            "<li>The workpiece rotates, and the cutting tool moves linearly</li><li>Commonly performed on a lathe or CNC turning machine.</li><li>Used to produce parts like shafts, rods, pins, and bushings.</li>",
           q1: "Turning is typically used to make which part?",
           q1a: "Shaft",
           q1b: "Flat plate",
-          q1c: "Weld joint"
+          q1c: "Weld joint",
         },
         {
           id: "m4",
           title: "Tools & Safety",
           subtitle: "Holders, inserts & safety",
           time: "6 mins",
-          summary: "Tooling types and essential safety precautions",
-          overview: "Overview of tool holders, inserts, coolant, PPE and safety checks before operation",
-          image1: "/images/Picture1.png",
-          image2: "/images/Picture2.png",
-          steps: "<li>Always wear eye protection and gloves where appropriate</li><li>Ensure guards and interlocks are functional</li><li>Check workholding & tool clamping before start</li>",
+          summary: "Tooling types and safety",
+          images: ["/images/Picture1.png"],
+          video: "",
+          steps:
+            "<li>Wear PPE</li><li>Check guards</li><li>Ensure correct clamping</li>",
           q1: "Which PPE is essential for turning?",
           q1a: "Safety goggles",
           q1b: "High heels",
-          q1c: "Sunglasses"
-        }
+          q1c: "Sunglasses",
+        },
       ];
 
-      // ====== App state ======
+      // app state
       const state = { current: 0, answers: {}, completed: new Set() };
 
-      // render TOC
       function renderTOC() {
         const list = $("#modulesList");
         list.innerHTML = "";
@@ -338,22 +505,25 @@ main {
           div.className = "module";
           div.dataset.id = m.id;
           if (i === state.current) div.classList.add("active");
-          div.innerHTML = `<div><strong>${m.title}</strong></div><div class="small">${m.summary}</div>`;
-          div.addEventListener("click", () => { goTo(i); });
+          div.innerHTML = `<div><strong>${escapeHtml(
+            m.title
+          )}</strong></div><div class="small">${escapeHtml(m.summary)}</div>`;
+          div.addEventListener("click", () => {
+            goTo(i);
+          });
           list.appendChild(div);
         });
-        $("#totalCount").textContent = modules.length;
+        $("#totalCount") && ($("#totalCount").textContent = modules.length);
       }
 
-      // render module content
       function renderContent() {
         const m = modules[state.current];
         const tpl = $("#moduleContentTpl").innerHTML;
         const html = tpl
           .replace(/{{title}}/g, escapeHtml(m.title))
           .replace(/{{subtitle}}/g, escapeHtml(m.subtitle))
-          .replace(/{{time}}/g, m.time)
-          .replace(/{{overview}}/g, escapeHtml(m.overview))
+          .replace(/{{time}}/g, escapeHtml(m.time))
+          .replace(/{{overview}}/g, escapeHtml(m.overview || ""))
           .replace(/{{steps}}/g, m.steps || "")
           .replace(/{{q1}}/g, escapeHtml(m.q1 || ""))
           .replace(/{{q1a}}/g, escapeHtml(m.q1a || ""))
@@ -361,36 +531,129 @@ main {
           .replace(/{{q1c}}/g, escapeHtml(m.q1c || ""));
         $("#contentArea").innerHTML = html;
 
-        // initialize carousel within the freshly-inserted content
-        const carousel = document.querySelector("#contentArea .carousel");
-        if (carousel) {
-          // build images list from module: prefer m.images array, else use image1,image2, else placeholders
-          let imgs = [];
-          if (Array.isArray(m.images) && m.images.length) imgs = imgs.concat(m.images.filter(Boolean));
-          if (m.image1) imgs.push(m.image1);
-          if (m.image2) imgs.push(m.image2);
-          if (imgs.length === 0) imgs = ["/images/Picture1.png","/images/Picture2.png","/images/Picture3.png","/images/Picture4.png"];
-          initCarousel(carousel, imgs);
+        // Tabs and media wiring (scoped to contentArea)
+        const content = document.getElementById("contentArea");
+        const tabImages = content.querySelector(".tab-images");
+        const tabVideo = content.querySelector(".tab-video");
+        const tabSteps = content.querySelector(".tab-steps");
+        const areaImages = content.querySelector(".media-images");
+        const areaVideo = content.querySelector(".media-video");
+        const areaSteps = content.querySelector(".media-steps");
+
+        // decide which tabs to show/hide based on module
+        const hasImages = Array.isArray(m.images) && m.images.length > 0;
+        const hasVideo = !!(m.video && m.video.trim());
+        tabImages.classList.toggle("hidden", !hasImages);
+        tabVideo.classList.toggle("hidden", !hasVideo);
+
+        // default active tab order: Images -> Video -> Steps
+        function activateTab(name) {
+          [tabImages, tabVideo, tabSteps].forEach((t) =>
+            t.classList.remove("active")
+          );
+          [areaImages, areaVideo, areaSteps].forEach(
+            (a) => (a.style.display = "none")
+          );
+          if (name === "images" && hasImages) {
+            tabImages.classList.add("active");
+            areaImages.style.display = "block";
+            initCarousel(areaImages, m.images);
+          } else if (name === "video" && hasVideo) {
+            tabVideo.classList.add("active");
+            areaVideo.style.display = "block";
+            loadVideo(areaVideo, m.video);
+          } else {
+            tabSteps.classList.add("active");
+            areaSteps.style.display = "block";
+          }
         }
 
-        // bind controls
-        $("#prevBtn").addEventListener("click", () => { if (state.current > 0) goTo(state.current - 1); });
-        $("#nextBtn").addEventListener("click", () => { handleNext(); });
+        // click handlers
+        tabImages.addEventListener("click", () => activateTab("images"));
+        tabVideo.addEventListener("click", () => activateTab("video"));
+        tabSteps.addEventListener("click", () => activateTab("steps"));
 
-        // restore radio if answered
+        // auto-select appropriate tab
+        if (hasImages) activateTab("images");
+        else if (hasVideo) activateTab("video");
+        else activateTab("steps");
+
+        // Prev / Next controls
+        content.querySelector("#prevBtn").addEventListener("click", () => {
+          if (state.current > 0) goTo(state.current - 1);
+        });
+        content.querySelector("#nextBtn").addEventListener("click", () => {
+          handleNext();
+        });
+
+        // restore quiz answer
         const ans = state.answers[m.id];
         if (ans) {
-          const r = $(`input[name='q1'][value='${ans}']`);
+          const r = content.querySelector(`input[name='q1'][value='${ans}']`);
           if (r) r.checked = true;
+        }
+      }
+
+      // load video (supports YouTube link or raw URL)
+      function loadVideo(area, url) {
+        area.innerHTML = ""; // clear
+        if (!url) {
+          area.innerHTML = '<div class="video-wrap">No video provided</div>';
+          return;
+        }
+        try {
+          const u = new URL(url);
+          if (u.hostname.includes("youtube.com") || u.hostname === "youtu.be") {
+            // extract id
+            let id = null;
+            if (u.hostname.includes("youtube.com"))
+              id = u.searchParams.get("v");
+            if (u.hostname === "youtu.be") id = u.pathname.slice(1);
+            if (id) {
+              const iframe = document.createElement("iframe");
+              iframe.width = "100%";
+              iframe.height = "100%";
+              iframe.src = "https://www.youtube.com/embed/" + id;
+              iframe.frameBorder = 0;
+              iframe.allow =
+                "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+              iframe.allowFullscreen = true;
+              const wrap = document.createElement("div");
+              wrap.style.height = "320px";
+              wrap.style.borderRadius = "8px";
+              wrap.appendChild(iframe);
+              area.appendChild(wrap);
+              return;
+            }
+          }
+        } catch (e) {}
+        // fallback: link or HTML5 video
+        if (url.match(/\.(mp4|webm|ogg)$/i)) {
+          const v = document.createElement("video");
+          v.controls = true;
+          v.style.width = "100%";
+          v.style.height = "320px";
+          const src = document.createElement("source");
+          src.src = url;
+          v.appendChild(src);
+          area.appendChild(v);
+        } else {
+          const a = document.createElement("a");
+          a.href = url;
+          a.target = "_blank";
+          a.textContent = "Open video link";
+          area.appendChild(a);
         }
       }
 
       function handleNext() {
         const m = modules[state.current];
-        const selected = $(`input[name='q1']:checked`);
+        const content = document.getElementById("contentArea");
+        const selected = content.querySelector(`input[name='q1']:checked`);
         if (selected) state.answers[m.id] = selected.value;
         if (selected && selected.value === "a") state.completed.add(m.id);
-        saveState(); updateProgress();
+        saveState();
+        updateProgress();
         if (state.current < modules.length - 1) goTo(state.current + 1);
         else showCompletion();
       }
@@ -402,18 +665,24 @@ main {
       }
 
       function updateProgress() {
-        const done = state.completed.size;
-        const total = modules.length;
-        const pct = Math.round((done / total) * 100);
-        $("#progressBar").style.width = pct + "%";
-        $("#completedCount").textContent = done;
+        $("#progressBar") &&
+          ($("#progressBar").style.width =
+            Math.round((state.completed.size / modules.length) * 100) + "%");
+        $("#completedCount").textContent = state.completed.size;
       }
 
       function saveState() {
-        localStorage.setItem("ace_training_v1", JSON.stringify({ current: state.current, answers: state.answers, completed: Array.from(state.completed) }));
+        localStorage.setItem(
+          "ace_training_v2",
+          JSON.stringify({
+            current: state.current,
+            answers: state.answers,
+            completed: Array.from(state.completed),
+          })
+        );
       }
       function loadState() {
-        const s = localStorage.getItem("ace_training_v1");
+        const s = localStorage.getItem("ace_training_v2");
         if (!s) return;
         try {
           const d = JSON.parse(s);
@@ -422,45 +691,64 @@ main {
           state.completed = new Set(d.completed || []);
         } catch (e) {}
       }
+
       function resetState() {
         if (confirm("Reset progress?")) {
-          localStorage.removeItem("ace_training_v1");
-          state.current = 0; state.answers = {}; state.completed = new Set();
-          renderTOC(); renderContent(); updateProgress();
+          localStorage.removeItem("ace_training_v2");
+          state.current = 0;
+          state.answers = {};
+          state.completed = new Set();
+          renderTOC();
+          renderContent();
+          updateProgress();
         }
       }
 
       function showCompletion() {
-        const html = `<div class="card certificate"><h2>Training completed</h2><p>You've completed the ACE Micromatic machining operations module.</p><p><button class="btn" id="downloadCert">Download Certificate</button></p></div>`;
-        $("#contentArea").innerHTML = html;
-        $("#downloadCert").addEventListener("click", () => { downloadCertificate(); });
+        document.getElementById(
+          "contentArea"
+        ).innerHTML = `<div class="card certificate"><h2>Training completed</h2><p>You've completed the ACE Micromatic module.</p><p><button class="btn" id="downloadCert">Download Certificate</button></p></div>`;
+        document
+          .getElementById("downloadCert")
+          .addEventListener("click", downloadCertificate);
       }
-
       function downloadCertificate() {
         const canvas = document.createElement("canvas");
-        canvas.width = 1200; canvas.height = 675;
+        canvas.width = 1200;
+        canvas.height = 675;
         const ctx = canvas.getContext("2d");
-        ctx.fillStyle = "#fff"; ctx.fillRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = "#08306b"; ctx.font = "36px serif"; ctx.fillText("Certificate of Completion", 60,120);
-        ctx.fillStyle = "#111"; ctx.font = "28px serif"; ctx.fillText("This certifies that the learner has completed the", 60,190);
-        ctx.font = "30px serif"; ctx.fillText("ACE Micromatic — Machining Operations Module", 60,240);
-        ctx.font = "22px serif"; ctx.fillText("Date: "+(new Date()).toLocaleDateString(), 60,320);
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#08306b";
+        ctx.font = "36px serif";
+        ctx.fillText("Certificate of Completion", 60, 120);
+        ctx.fillStyle = "#111";
+        ctx.font = "28px serif";
+        ctx.fillText(
+          "This certifies that the learner has completed the",
+          60,
+          190
+        );
+        ctx.font = "30px serif";
+        ctx.fillText("ACE Micromatic — Machining Operations Module", 60, 240);
+        ctx.font = "22px serif";
+        ctx.fillText("Date: " + new Date().toLocaleDateString(), 60, 320);
         const data = canvas.toDataURL("image/png");
-        const a = document.createElement("a"); a.href = data; a.download = "ACE_Micromatic_certificate.png"; a.click();
+        const a = document.createElement("a");
+        a.href = data;
+        a.download = "ACE_Micromatic_certificate.png";
+        a.click();
       }
 
-      function escapeHtml(s) { return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
-
-      // keyboard shortcuts
-      window.addEventListener("keydown", (e) => {
-        if (e.ctrlKey && e.key.toLowerCase() === "s") { e.preventDefault(); saveState(); alert("Progress saved locally."); }
-        if (e.key === "ArrowRight") handleNext();
-        if (e.key === "ArrowLeft" && state.current > 0) goTo(state.current - 1);
-      });
-
       // init
-      loadState(); renderTOC(); renderContent(); updateProgress();
+      loadState();
+      renderTOC();
+      renderContent();
+      updateProgress();
       document.getElementById("resetBtn").addEventListener("click", resetState);
+
+      // expose initCarousel globally so renderContent can call it (already defined above)
+      // (No extra action required)
     </script>
   </body>
 </html>
