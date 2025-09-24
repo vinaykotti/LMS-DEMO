@@ -8,8 +8,10 @@
       :root {
         --accent: #0f62fe;
         --muted: #6b7280;
+        --bg: #f6f8fb;
         --header-height: 74px;
         --nav-width: 280px;
+        --max-width: 1100px;
       }
       * {
         box-sizing: border-box;
@@ -17,8 +19,11 @@
       body {
         font-family: Inter, "Segoe UI", Roboto, system-ui, Arial;
         margin: 0;
-        background: #f6f8fb;
+        background: var(--bg);
         color: #0b1220;
+      }
+      a {
+        color: inherit;
       }
       header {
         position: fixed;
@@ -44,20 +49,23 @@
       }
       .site-title h1 {
         margin: 0;
-        font-size: 18px;
+        font-size: 16px;
+      }
+      .site-title .sub {
+        font-size: 12px;
+        color: var(--muted);
       }
       .page-body {
         padding-top: calc(var(--header-height) + 10px);
       }
-
-      /* fixed left nav */
+      /* left nav fixed */
       nav {
         position: fixed;
         top: var(--header-height);
         left: 0;
         bottom: 0;
         width: var(--nav-width);
-        padding: 18px;
+        padding: 16px;
         background: #fff;
         border-right: 1px solid #e6edf3;
         overflow: auto;
@@ -68,6 +76,160 @@
         min-height: calc(100vh - var(--header-height) - 10px);
       }
 
+      /* HERO */
+      .hero {
+        max-width: var(--max-width);
+        margin: 0 auto 18px;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+      .hero-left {
+        flex: 1;
+        padding: 28px;
+        background: linear-gradient(180deg, #fff, #f8fbff);
+        border-radius: 14px;
+        box-shadow: 0 12px 30px rgba(10, 20, 40, 0.06);
+      }
+      .hero-right {
+        flex: 1;
+        position: relative;
+        min-height: 300px;
+      }
+      .headline {
+        font-size: 32px;
+        margin: 0 0 12px;
+      }
+      .lead {
+        color: var(--muted);
+        margin-bottom: 18px;
+      }
+      .cta-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .cta {
+        background: var(--accent);
+        color: #fff;
+        border: 0;
+        padding: 12px 18px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+      .cta.secondary {
+        background: #eef2ff;
+        color: var(--accent);
+      }
+
+      /* hero carousel (right) */
+      .hero-carousel {
+        height: 320px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(10, 20, 40, 0.06);
+        background: #f3f6fb;
+        position: relative;
+      }
+      .hero-carousel img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .hero-caption {
+        position: absolute;
+        left: 18px;
+        bottom: 18px;
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 14px;
+      }
+
+      /* features */
+      .features {
+        max-width: var(--max-width);
+        margin: 20px auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      .feature {
+        background: #fff;
+        padding: 18px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 6px 18px rgba(10, 20, 40, 0.03);
+      }
+      .feature h4 {
+        margin: 8px 0 4px;
+        font-size: 16px;
+      }
+      .feature p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* stats */
+      .stats {
+        max-width: var(--max-width);
+        margin: 18px auto;
+        display: flex;
+        gap: 12px;
+        align-items: stretch;
+      }
+      .stat {
+        flex: 1;
+        background: #fff;
+        padding: 18px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 6px 18px rgba(10, 20, 40, 0.03);
+      }
+      .stat .num {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .stat .label {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* modules grid (marketing) */
+      .modules-grid {
+        max-width: var(--max-width);
+        margin: 24px auto 14px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      .module-tile {
+        background: #fff;
+        padding: 16px;
+        border-radius: 10px;
+        box-shadow: 0 6px 18px rgba(10, 20, 40, 0.04);
+        cursor: pointer;
+      }
+      .module-tile h3 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+      .module-tile p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* module reader area (existing compact viewer) */
+      .viewer {
+        max-width: var(--max-width);
+        margin: 22px auto;
+        background: transparent;
+      }
       .card {
         background: #fff;
         padding: 18px;
@@ -79,63 +241,6 @@
         font-size: 13px;
         color: var(--muted);
       }
-
-      .module {
-        padding: 12px;
-        border-radius: 8px;
-        margin-bottom: 8px;
-        cursor: pointer;
-      }
-      .module.active {
-        background: linear-gradient(90deg, #eef6ff, #fff);
-        border-left: 4px solid var(--accent);
-      }
-      .lesson-title {
-        font-size: 18px;
-        margin: 6px 0;
-      }
-
-      .btn {
-        background: var(--accent);
-        color: #fff;
-        padding: 8px 12px;
-        border-radius: 8px;
-        border: 0;
-        cursor: pointer;
-      }
-      .btn.secondary {
-        background: #eef2ff;
-        color: var(--accent);
-      }
-      .kbd {
-        background: #111827;
-        color: #fff;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-size: 12px;
-      }
-      .note {
-        font-size: 13px;
-        color: var(--muted);
-      }
-
-      ol {
-        font-size: 15px;
-        list-style-type: none;
-        counter-reset: custom-step;
-      }
-      ol li {
-        counter-increment: custom-step;
-        margin-bottom: 5px;
-      }
-      ol li::before {
-        content: "Step " counter(custom-step) ": ";
-        color: purple;
-        font-weight: bold;
-        margin-right: 5px;
-      }
-
-      /* Combined media tabs */
       .tabs {
         display: flex;
         gap: 8px;
@@ -158,8 +263,6 @@
       .tab.hidden {
         display: none;
       }
-
-      /* carousel */
       .carousel {
         position: relative;
         max-width: 100%;
@@ -168,15 +271,15 @@
       }
       .carousel-window {
         width: 100%;
-        height: 100%;
+        height: 320px;
         display: flex;
         align-items: center;
         justify-content: center;
         background: #f3f6fb;
       }
       .carousel-image {
-        width: 75%;
-        height: 75%;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
         display: block;
       }
@@ -215,7 +318,6 @@
       .carousel-dots span.active {
         background: var(--accent);
       }
-
       .video-wrap {
         width: 100%;
         height: 320px;
@@ -226,31 +328,49 @@
         justify-content: center;
         color: #fff;
       }
-      .no-media {
-        padding: 18px;
-        border-radius: 8px;
-        background: #fff4f0;
-        color: #6b2b2b;
-        border: 1px solid #ffd6cc;
+      ol {
+        font-size: 15px;
+        list-style-type: none;
+        counter-reset: custom-step;
       }
-
-      /* assessment */
-      .assess-q {
+      ol li {
+        counter-increment: custom-step;
+        margin-bottom: 6px;
+      }
+      ol li::before {
+        content: "Step " counter(custom-step) ": ";
+        color: purple;
+        font-weight: 600;
+        margin-right: 6px;
+      }
+      .note {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .btn {
+        background: var(--accent);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 0;
+        cursor: pointer;
+      }
+      .btn.secondary {
+        background: #eef2ff;
+        color: var(--accent);
+      }
+      footer.controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 12px;
+      }
+      .assessment .assess-q {
         margin-bottom: 18px;
         padding: 12px;
         border-radius: 8px;
         border: 1px solid #eef3fb;
         background: #fafcff;
-      }
-      .assess-q h4 {
-        margin: 0 0 8px 0;
-        font-size: 15px;
-      }
-      .assess-controls {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        margin-top: 12px;
       }
       .result {
         padding: 12px;
@@ -259,33 +379,56 @@
         border: 1px solid #ddf5d8;
         color: #064e1a;
       }
-
+      @media (max-width: 1100px) {
+        .modules-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .features {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .hero {
+          flex-direction: column;
+        }
+        .hero-right {
+          order: -1;
+        }
+      }
       @media (max-width: 900px) {
         nav {
           display: none;
         }
         main {
           margin-left: 0;
-          padding: 18px;
+        }
+        .modules-grid {
+          grid-template-columns: 1fr;
+        }
+        .features {
+          grid-template-columns: 1fr;
+        }
+        .hero-right {
+          min-height: 180px;
+        }
+        .hero-carousel {
+          height: 180px;
         }
         .carousel-window,
         .video-wrap {
-          height: 200px;
+          height: 180px;
         }
       }
     </style>
   </head>
-
   <body>
     <header>
-      <img src="/images/logo.png" alt="logo" />
+      <img src="/images/logo.png" alt="ACE Logo" />
       <div class="site-title">
-        <h1>ACE Micromatic — Machining Operations Training</h1>
-        <div class="small">
-          Modular HTML training • Progress saved locally • Compact media card
-        </div>
+        <h1>ACE Micromatic</h1>
+        <div class="sub">CNC training hub — modular HTML LMS</div>
       </div>
+
       <div style="flex: 1"></div>
+
       <div style="display: flex; gap: 8px; align-items: center">
         <button class="btn secondary" id="resetBtn">Reset</button>
       </div>
@@ -296,7 +439,7 @@
         <div class="card">
           <strong>Modules</strong>
           <div class="small" style="margin-top: 6px">
-            Click a lesson to load content.
+            Click a tile to open the lesson.
           </div>
         </div>
         <div id="modulesList"></div>
@@ -311,15 +454,151 @@
       </nav>
 
       <main>
-        <div id="contentArea">
-          <div class="card">
-            <h2>Welcome</h2>
-            <p>Select a module to begin.</p>
+        <!-- HERO + Intro content -->
+        <section class="hero" aria-labelledby="heroTitle">
+          <div class="hero-left">
+            <h2 id="heroTitle" class="headline">
+              Master the Art of CNC Machining
+            </h2>
+            <p class="lead">
+              Structured, practical modules covering facing, turning, tooling
+              and safety — with videos, images, and a consolidated assessment.
+            </p>
+            <div class="cta-row">
+              <button class="cta" id="startLearningBtn">Start Learning</button>
+              <button class="cta secondary" id="visionBtn">
+                Vision & Mission
+              </button>
+            </div>
+            <div style="margin-top: 18px" class="small">
+              Track your progress and download a certificate after passing the
+              assessment.
+            </div>
           </div>
-        </div>
+
+          <div class="hero-right">
+            <div class="hero-carousel" id="heroCarousel">
+              <img src="/images/Picture1.png" alt="Slide 1" />
+              <div class="hero-caption" id="heroCaption">Company timeline</div>
+              <button
+                class="carousel-btn prev"
+                id="heroPrev"
+                style="left: 12px"
+              >
+                &#10094;
+              </button>
+              <button
+                class="carousel-btn next"
+                id="heroNext"
+                style="right: 12px"
+              >
+                &#10095;
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Features -->
+        <section class="features" aria-label="Our Solutions">
+          <div class="feature">
+            <img
+              src="/images/Picture2.png"
+              alt=""
+              style="
+                width: 100%;
+                height: 110px;
+                object-fit: cover;
+                border-radius: 6px;
+              "
+            />
+            <h4>Turning Solutions</h4>
+            <p>Precision lathes, tooling & fixtures for turning operations.</p>
+          </div>
+          <div class="feature">
+            <img
+              src="/images/Picture3.png"
+              alt=""
+              style="
+                width: 100%;
+                height: 110px;
+                object-fit: cover;
+                border-radius: 6px;
+              "
+            />
+            <h4>Milling & Machining</h4>
+            <p>Advanced machining centers and process controls.</p>
+          </div>
+          <div class="feature">
+            <img
+              src="/images/Picture4.png"
+              alt=""
+              style="
+                width: 100%;
+                height: 110px;
+                object-fit: cover;
+                border-radius: 6px;
+              "
+            />
+            <h4>Industry 4.0</h4>
+            <p>Smart manufacturing integrations & monitoring solutions.</p>
+          </div>
+          <div class="feature">
+            <img
+              src="/images/Picture1.png"
+              alt=""
+              style="
+                width: 100%;
+                height: 110px;
+                object-fit: cover;
+                border-radius: 6px;
+              "
+            />
+            <h4>Supports & Training</h4>
+            <p>On-site support, training programs and certification.</p>
+          </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="stats" aria-hidden>
+          <div class="stat">
+            <div class="num">20L</div>
+            <div class="label">Manufacturing Capacity (sq ft)</div>
+          </div>
+          <div class="stat">
+            <div class="num">90K</div>
+            <div class="label">CNC Installations</div>
+          </div>
+          <div class="stat">
+            <div class="num">ISO</div>
+            <div class="label">Quality Standards (ISO 9001)</div>
+          </div>
+        </section>
+
+        <!-- Marketing modules grid -->
+        <section
+          class="modules-grid"
+          id="modulesGrid"
+          aria-label="Quick Modules"
+        >
+          <!-- injected -->
+        </section>
+
+        <!-- Viewer: where lessons open -->
+        <section class="viewer" id="viewerArea" aria-live="polite">
+          <div id="contentArea">
+            <div class="card">
+              <h2>Welcome</h2>
+              <p>
+                Select a module to begin or click
+                <strong>Start Learning</strong>.
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
 
+    <!-- module content template (compact viewer) -->
     <template id="moduleContentTpl">
       <div>
         <div class="card">
@@ -338,7 +617,6 @@
           </div>
         </div>
 
-        <!-- Combined media card -->
         <div class="card">
           <div class="tabs">
             <div class="tab tab-images">Images</div>
@@ -379,15 +657,13 @@
             </div>
 
             <div class="media-steps" style="display: none">
-              <ol class="small">
+              <ol>
                 {{steps}}
               </ol>
             </div>
 
             <div class="media-none" style="display: none">
-              <div class="no-media">
-                No media (images/video/steps) available for this lesson.
-              </div>
+              <div class="no-media">No media available for this lesson.</div>
             </div>
           </div>
         </div>
@@ -405,28 +681,32 @@
         </div>
 
         <footer class="controls card">
-          <div style="display: flex; flex-direction: column; gap: 8px">
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-              "
-            >
-              <button class="btn" id="prevBtn">Previous</button>
+          <div class="note">
+            Tip: use tabs to switch Images / Video / Steps without extra
+            scrolling.
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-top: 12px;
+            "
+          >
+            <div>
+              <button class="btn secondary" id="prevBtn">Previous</button>
               <button class="btn" id="nextBtn">Next</button>
             </div>
-            <div class="note">
-              *Use tabs to switch Images / Video / Steps without extra
-              scrolling.
-            </div>
+            <div class="small">Progress saved locally</div>
           </div>
         </footer>
       </div>
     </template>
 
     <script>
-      /* ========== utilities ========== */
+      /* ------------------------
+     Utilities
+     ------------------------*/
       function $(sel, ctx = document) {
         return ctx.querySelector(sel);
       }
@@ -441,59 +721,181 @@
           .replace(/>/g, "&gt;");
       }
 
-      /* ========== carousel initializer (idempotent) ========== */
+      /* ------------------------
+     Data: modules (your existing content)
+     ------------------------*/
+      const modules = [
+        {
+          id: "m1",
+          title: "Introduction — AMG Group",
+          subtitle: "Company overview & scope",
+          time: "5 mins",
+          summary: "Intro + images + video",
+          overview:
+            "AMG group brief overview, areas of operation, facilities and capabilities.",
+          images: [
+            "/images/Picture1.png",
+            "/images/Picture2.png",
+            "/images/Picture3.png",
+            "/images/Picture4.png",
+          ],
+          video: "",
+          steps:
+            "<li>Company history & milestones</li><li>Product & services summary</li><li>Key facilities & capabilities</li>",
+          q1: "Which area is NOT typically a part of AMG group?",
+          q1a: "Manufacturing",
+          q1b: "Banking",
+          q1c: "Service Support",
+        },
+        {
+          id: "m2",
+          title: "Facing — Operation",
+          subtitle: "Lathe facing operation",
+          time: "8 mins",
+          summary: "Definition, tool setup and video demo for Facing operation",
+          overview:
+            "Facing removes material from the end of a rotating workpiece to produce a flat surface perpendicular to the axis.",
+          images: ["/images/Picture8.png"],
+          video: "/images/ACE MICROMATICS_POC.mp4",
+          steps:
+            "<li>Mount the workpiece</li><li>Select tool & set zero</li><li>Perform light passes and check finish</li>",
+          q1: "Facing primarily produces what?",
+          q1a: "Flat surface perpendicular to axis",
+          q1b: "Tapered surface",
+          q1c: "Internal bore",
+        },
+        {
+          id: "m3",
+          title: "Turning — Operation",
+          subtitle: "External turning basics",
+          time: "10 mins",
+          summary: "Turning definition, examples and demo",
+          overview:
+            "Turning material removal from external surface to produce cylindrical parts like shafts.",
+          images: ["/images/Picture9.png"],
+          video: "",
+          steps:
+            "<li>Choose insert</li><li>Set spindle speed & feed</li><li>Perform rough & finish passes</li>",
+          q1: "Turning is typically used to make which part?",
+          q1a: "Shaft",
+          q1b: "Flat plate",
+          q1c: "Weld joint",
+        },
+        {
+          id: "m4",
+          title: "Tools & Safety",
+          subtitle: "Holders, inserts & safety",
+          time: "6 mins",
+          summary: "Tooling types and essential safety precautions",
+          overview:
+            "Tool holders, inserts, coolant, PPE and safety checks before operation.",
+          images: ["/images/Picture1.png"],
+          video: "",
+          steps:
+            "<li>Wear PPE</li><li>Check guards</li><li>Ensure correct clamping</li>",
+          q1: "Which PPE is essential for turning?",
+          q1a: "Safety goggles",
+          q1b: "High heels",
+          q1c: "Sunglasses",
+        },
+        {
+          id: "m5",
+          title: "Summary & Assessment",
+          subtitle: "Consolidated assessment of module questions",
+          time: "15-20 mins",
+          summary: "Take the consolidated assessment",
+          images: [],
+          video: "",
+          steps: "",
+        },
+      ];
+
+      /* ------------------------
+     App state
+     ------------------------*/
+      const state = {
+        current: 0,
+        answers: {},
+        completed: new Set(),
+        assessmentResult: null,
+      };
+
+      /* ------------------------
+     Helpers: carousel (hero + module)
+     ------------------------*/
+      function initHeroCarousel(el, images, captions) {
+        if (!el || !images || !images.length) return;
+        let idx = 0;
+        const imgEl = el.querySelector("img");
+        const captionEl = el.querySelector("#heroCaption");
+        function renderHero() {
+          imgEl.src = images[idx];
+          captionEl.textContent =
+            captions && captions[idx] ? captions[idx] : "";
+        }
+        el.querySelector("#heroPrev").addEventListener("click", () => {
+          idx = (idx - 1 + images.length) % images.length;
+          renderHero();
+        });
+        el.querySelector("#heroNext").addEventListener("click", () => {
+          idx = (idx + 1) % images.length;
+          renderHero();
+        });
+        // auto-play lightly
+        let autoplay = setInterval(() => {
+          idx = (idx + 1) % images.length;
+          renderHero();
+        }, 6000);
+        el.addEventListener("mouseenter", () => clearInterval(autoplay));
+        el.addEventListener("mouseleave", () => {
+          autoplay = setInterval(() => {
+            idx = (idx + 1) % images.length;
+            renderHero();
+          }, 6000);
+        });
+        renderHero();
+      }
+
       function initCarousel(container, images) {
         if (!container || !images || !images.length) return;
         if (container.dataset.carouselInit === "1") return;
         container.dataset.carouselInit = "1";
-
-        let windowImg = container.querySelector(".carousel-window img");
+        const windowImg = container.querySelector(".carousel-window img");
         const btnPrev = container.querySelector(".carousel-btn.prev");
         const btnNext = container.querySelector(".carousel-btn.next");
-        const dotsContainer = container.querySelector(".carousel-dots");
-
-        if (!windowImg) {
-          const win = document.createElement("div");
-          win.className = "carousel-window";
-          const img = document.createElement("img");
-          img.className = "carousel-image";
-          win.appendChild(img);
-          container.insertBefore(win, container.firstChild);
-          windowImg = img;
-        }
-
-        dotsContainer.innerHTML = "";
+        const dots = container.querySelector(".carousel-dots");
+        dots.innerHTML = "";
+        let idx = 0;
         images.forEach((_, i) => {
-          const dot = document.createElement("span");
-          dot.addEventListener("click", () => {
+          const s = document.createElement("span");
+          s.addEventListener("click", () => {
             idx = i;
             render();
           });
-          dotsContainer.appendChild(dot);
+          dots.appendChild(s);
         });
-
-        let idx = 0;
         function render() {
           windowImg.src = images[idx];
-          dotsContainer
+          dots
             .querySelectorAll("span")
             .forEach((d, i) => d.classList.toggle("active", i === idx));
         }
-        if (btnPrev)
+        btnPrev &&
           btnPrev.addEventListener("click", () => {
             idx = (idx - 1 + images.length) % images.length;
             render();
           });
-        if (btnNext)
+        btnNext &&
           btnNext.addEventListener("click", () => {
             idx = (idx + 1) % images.length;
             render();
           });
-
         render();
       }
 
-      /* ========== video loader ========== */
+      /* ------------------------
+     Video loader
+     ------------------------*/
       function loadVideo(area, url) {
         area.innerHTML = "";
         if (!url) {
@@ -501,7 +903,7 @@
           return;
         }
         try {
-          const u = new URL(url);
+          const u = new URL(url, window.location.href);
           if (u.hostname.includes("youtube.com") || u.hostname === "youtu.be") {
             let id = null;
             if (u.hostname.includes("youtube.com"))
@@ -514,7 +916,7 @@
               iframe.src = "https://www.youtube.com/embed/" + id;
               iframe.frameBorder = 0;
               iframe.allow =
-                "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture";
               iframe.allowFullscreen = true;
               const wrap = document.createElement("div");
               wrap.style.height = "320px";
@@ -542,124 +944,58 @@
         }
       }
 
-      /* ========== modules ========== */
-      const modules = [
-        {
-          id: "m1",
-          title: "Introduction — AMG Group",
-          subtitle: "Company overview & scope",
-          time: "5 mins",
-          summary: "Intro + images + video",
-          overview:
-            "AMG group of companies brief overview, areas of operation, facilities, and key capabilities. Use company photos to make this slide more engaging.",
-          images: [
-            "/images/Picture1.png",
-            "/images/Picture2.png",
-            "/images/Picture3.png",
-            "/images/Picture4.png",
-          ],
-          video: "",
-          steps: "",
-          q1: "Which area is NOT typically a part of AMG group?",
-          q1a: "Manufacturing",
-          q1b: "Banking",
-          q1c: "Service Support",
-        },
-        {
-          id: "m2",
-          title: "Facing — Operation",
-          subtitle: "Lathe facing operation",
-          overview:
-            "Facing is a lathe operation in which a cutting tool removes material from the end of a rotating workpiece to produce a flat surface perpendicular to the workpieces axis of rotation.",
-          time: "8 mins",
-          summary: "Facing description and setup",
-          images: ["/images/Picture8.png"],
-          video: "/images/ACE MICROMATICS_POC.mp4",
-          steps:
-            "<li>The workpiece rotates on the spindle.</li><li>The cutting tool moves radially  across the face of the workpiece.</li><li>Can be done manually or automatically on a CNC lathe</li><li>Usually performed with a facing tool, mounted in the turret/tool post.</li>",
-          q1: "Facing primarily produces what?",
-          q1a: "Flat surface perpendicular to axis",
-          q1b: "Tapered surface",
-          q1c: "Internal bore",
-        },
-        {
-          id: "m3",
-          title: "Turning — Operation",
-          subtitle: "External turning basics",
-          overview:
-            "Turning is a machining process in which a cutting tool, typically a non-rotary tool bit, moves linearly while the workpiece rotates. The primary purpose of turning is to produce cylindrical parts by removing material from the outer diameter of a rotating workpiece.",
-          time: "10 mins",
-          summary: "Turning overview",
-          images: ["/images/Picture9.png"],
-          video: "",
-          steps:
-            "<li>The workpiece rotates, and the cutting tool moves linearly.</li><li>Commonly performed on a lathe or CNC turning machine.</li><li>Used to produce parts like shafts, rods, pins, and bushings.</li>",
-          q1: "Turning is typically used to make which part?",
-          q1a: "Shaft",
-          q1b: "Flat plate",
-          q1c: "Weld joint",
-        },
-        {
-          id: "m4",
-          title: "Tools & Safety",
-          subtitle: "Holders, inserts & safety",
-          overview:
-            "Covers tool holders, inserts, coolant usage, PPE and safety checks prior to operation.",
-          time: "6 mins",
-          summary: "Tooling types and safety",
-          images: ["/images/Picture1.png"],
-          video: "",
-          steps:
-            "<li>Wear PPE</li><li>Check guards</li><li>Ensure correct clamping</li>",
-          q1: "Which PPE is essential for turning?",
-          q1a: "Safety goggles",
-          q1b: "High heels",
-          q1c: "Sunglasses",
-        },
-        {
-          id: "m5",
-          title: "Summary & Assessment",
-          subtitle: "Consolidated assessment of module questions",
-          time: "15-20 mins",
-          summary: "Take the module-level assessment (all questions combined).",
-          images: [],
-          video: "",
-          steps: "",
-        },
-      ];
+      /* ------------------------
+     Render modules list / tiles / toc
+     ------------------------*/
+      function renderTiles() {
+        const grid = document.getElementById("modulesGrid");
+        grid.innerHTML = "";
+        modules.forEach((m, i) => {
+          const tile = document.createElement("div");
+          tile.className = "module-tile";
+          tile.innerHTML = `<h3>${escapeHtml(
+            m.title
+          )}</h3><p class="small">${escapeHtml(m.summary)}</p>`;
+          tile.addEventListener("click", () => {
+            goTo(i);
+            scrollToViewer();
+          });
+          grid.appendChild(tile);
+        });
+      }
 
-      /* ========== state ========== */
-      const state = {
-        current: 0,
-        answers: {},
-        completed: new Set(),
-        assessmentResult: null,
-      };
-
-      /* ========== render TOC ========== */
       function renderTOC() {
-        const list = $("#modulesList");
+        const list = document.getElementById("modulesList");
         list.innerHTML = "";
         modules.forEach((m, i) => {
           const div = document.createElement("div");
           div.className = "module";
-          div.dataset.id = m.id;
           if (i === state.current) div.classList.add("active");
           div.innerHTML = `<div><strong>${escapeHtml(
             m.title
           )}</strong></div><div class="small">${escapeHtml(
             m.summary || ""
           )}</div>`;
-          div.addEventListener("click", () => goTo(i));
+          div.addEventListener("click", () => {
+            goTo(i);
+            scrollToViewer();
+          });
           list.appendChild(div);
         });
         const totalEl = document.getElementById("totalCount");
         if (totalEl) totalEl.textContent = modules.length;
       }
 
-      /* ========== render a normal module page (media + quiz) ========== */
+      function scrollToViewer() {
+        const viewer = document.getElementById("viewerArea");
+        viewer.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      /* ------------------------
+     Module viewer render (compact)
+     ------------------------*/
       function renderModuleContent(m) {
-        const tpl = $("#moduleContentTpl").innerHTML;
+        const tpl = document.getElementById("moduleContentTpl").innerHTML;
         const html = tpl
           .replace(/{{title}}/g, escapeHtml(m.title || ""))
           .replace(/{{subtitle}}/g, escapeHtml(m.subtitle || ""))
@@ -670,7 +1006,7 @@
           .replace(/{{q1a}}/g, escapeHtml(m.q1a || ""))
           .replace(/{{q1b}}/g, escapeHtml(m.q1b || ""))
           .replace(/{{q1c}}/g, escapeHtml(m.q1c || ""));
-        $("#contentArea").innerHTML = html;
+        document.getElementById("contentArea").innerHTML = html;
 
         const content = document.getElementById("contentArea");
         const tabImages = content.querySelector(".tab-images");
@@ -689,10 +1025,9 @@
         tabVideo && tabVideo.classList.toggle("hidden", !hasVideo);
         tabSteps && tabSteps.classList.toggle("hidden", !hasSteps);
 
-        if (areaImages) areaImages.style.display = "none";
-        if (areaVideo) areaVideo.style.display = "none";
-        if (areaSteps) areaSteps.style.display = "none";
-        if (areaNone) areaNone.style.display = "none";
+        [areaImages, areaVideo, areaSteps, areaNone].forEach(
+          (a) => a && (a.style.display = "none")
+        );
 
         function activateTab(name) {
           [tabImages, tabVideo, tabSteps].forEach(
@@ -701,80 +1036,72 @@
           [areaImages, areaVideo, areaSteps, areaNone].forEach(
             (a) => a && (a.style.display = "none")
           );
-
           if (name === "images" && hasImages) {
-            tabImages && tabImages.classList.add("active");
-            areaImages && (areaImages.style.display = "block");
-            if (areaImages && !areaImages.dataset.init) {
+            tabImages.classList.add("active");
+            areaImages.style.display = "block";
+            if (!areaImages.dataset.init) {
               initCarousel(areaImages, m.images);
               areaImages.dataset.init = "1";
             }
             return;
           }
           if (name === "video" && hasVideo) {
-            tabVideo && tabVideo.classList.add("active");
-            areaVideo && (areaVideo.style.display = "block");
-            if (areaVideo) loadVideo(areaVideo, m.video);
+            tabVideo.classList.add("active");
+            areaVideo.style.display = "block";
+            loadVideo(areaVideo, m.video);
             return;
           }
           if (name === "steps" && hasSteps) {
-            tabSteps && tabSteps.classList.add("active");
-            areaSteps && (areaSteps.style.display = "block");
+            tabSteps.classList.add("active");
+            areaSteps.style.display = "block";
             return;
           }
           if (areaNone) areaNone.style.display = "block";
         }
 
-        // attach tabs (remove previous listeners by cloning)
+        // attach tab handlers safely (clone to remove previous)
         [tabImages, tabVideo, tabSteps].forEach((t) => {
           if (!t) return;
           const clone = t.cloneNode(true);
           t.parentNode.replaceChild(clone, t);
         });
+        const tImgs = content.querySelector(".tab-images");
+        const tVid = content.querySelector(".tab-video");
+        const tStp = content.querySelector(".tab-steps");
+        tImgs && tImgs.addEventListener("click", () => activateTab("images"));
+        tVid && tVid.addEventListener("click", () => activateTab("video"));
+        tStp && tStp.addEventListener("click", () => activateTab("steps"));
 
-        // re-select after clone
-        const tabImages2 = content.querySelector(".tab-images");
-        const tabVideo2 = content.querySelector(".tab-video");
-        const tabSteps2 = content.querySelector(".tab-steps");
-
-        tabImages2 &&
-          tabImages2.addEventListener("click", () => activateTab("images"));
-        tabVideo2 &&
-          tabVideo2.addEventListener("click", () => activateTab("video"));
-        tabSteps2 &&
-          tabSteps2.addEventListener("click", () => activateTab("steps"));
-
-        // choose default
         if (hasImages) activateTab("images");
         else if (hasVideo) activateTab("video");
         else if (hasSteps) activateTab("steps");
         else activateTab("none");
 
-        // Prev/Next wiring — avoid duplicate listeners by replacing buttons
+        // Prev/Next buttons: replace nodes to avoid double listeners
         const prevBtn = content.querySelector("#prevBtn");
         const nextBtn = content.querySelector("#nextBtn");
         if (prevBtn) {
-          const prevClone = prevBtn.cloneNode(true);
-          prevBtn.parentNode.replaceChild(prevClone, prevBtn);
+          const c = prevBtn.cloneNode(true);
+          prevBtn.parentNode.replaceChild(c, prevBtn);
         }
         if (nextBtn) {
-          const nextClone = nextBtn.cloneNode(true);
-          nextBtn.parentNode.replaceChild(nextClone, nextBtn);
+          const c2 = nextBtn.cloneNode(true);
+          nextBtn.parentNode.replaceChild(c2, nextBtn);
         }
         const prevBtn2 = content.querySelector("#prevBtn");
         const nextBtn2 = content.querySelector("#nextBtn");
+
         prevBtn2 &&
           prevBtn2.addEventListener("click", () => {
             if (state.current > 0) goTo(state.current - 1);
           });
         nextBtn2 &&
           nextBtn2.addEventListener("click", () => {
-            // capture per-module quiz answer (if present)
-            const selected = content.querySelector(`input[name='q1']:checked`);
-            if (selected) {
-              state.answers[m.id] = selected.value;
-              // treat 'a' as correct in this POC
-              if (selected.value === "a") state.completed.add(m.id);
+            // save quick check answer and progress
+            const sel = content.querySelector(`input[name='q1']:checked`);
+            if (sel) {
+              state.answers[m.id] = sel.value;
+              if (sel.value === "a") state.completed.add(m.id);
               saveState();
               updateProgress();
             }
@@ -783,138 +1110,148 @@
           });
 
         // restore per-module answer if present
-        const ans = state.answers[m.id];
-        if (ans) {
-          const r = content.querySelector(`input[name='q1'][value='${ans}']`);
+        const a = state.answers[m.id];
+        if (a) {
+          const r = content.querySelector(`input[name='q1'][value='${a}']`);
           if (r) r.checked = true;
         }
-      } // renderModuleContent end
+      }
 
-      /* ========== assessment builder & renderer (m5) ========== */
+      /* ------------------------
+     Assessment builder & renderer
+     ------------------------*/
       function buildAssessmentQuestions() {
-        const questions = [];
+        const qs = [];
         modules.forEach((m) => {
           if (m.q1 && m.q1.toString().trim()) {
-            questions.push({
+            qs.push({
               id: m.id,
               q: m.q1,
               choices: [
-                { key: "a", text: m.q1a || "" },
-                { key: "b", text: m.q1b || "" },
-                { key: "c", text: m.q1c || "" },
+                { k: "a", t: m.q1a || "" },
+                { k: "b", t: m.q1b || "" },
+                { k: "c", t: m.q1c || "" },
               ],
               correct: "a",
             });
           }
         });
-        return questions;
+        return qs;
       }
 
       function renderAssessment() {
         const qs = buildAssessmentQuestions();
         const total = qs.length;
-        let html = `<div class="card"><div style="display:flex;justify-content:space-between;align-items:start"><div><div class="lesson-title">Summary & Assessment</div><div class="small">Consolidated assessment of module questions</div></div><div class="small">Estimated time: <strong>${Math.max(
+        let html = `<div class="card"><div style="display:flex;justify-content:space-between;align-items:start"><div><div class="lesson-title">Summary & Assessment</div><div class="small">Consolidated assessment</div></div><div class="small">Estimated: <strong>${Math.max(
           10,
           total * 2
         )} mins</strong></div></div></div>`;
-
         if (total === 0) {
-          html += `<div class="card"><p>No assessment questions available.</p></div>`;
-          $("#contentArea").innerHTML = html;
+          html += `<div class="card"><p>No questions found.</p></div>`;
+          document.getElementById("contentArea").innerHTML = html;
           return;
         }
-
-        html += `<div class="card"><p class="small">Answer all questions below and click Submit to grade.</p><form id="assessmentForm">`;
+        html += `<div class="card"><p class="small">Answer the questions and Submit to grade.</p><form id="assessmentForm">`;
         qs.forEach((q, i) => {
           html += `<div class="assess-q"><h4>Q${i + 1}. ${escapeHtml(
             q.q
           )}</h4>`;
-          q.choices.forEach((choice) => {
-            const name = `assess_${i}`;
-            const id = `assess_${i}_${choice.key}`;
-            html += `<label style="display:block;margin:6px 0"><input type="radio" name="${name}" value="${
-              choice.key
-            }" id="${id}"> ${escapeHtml(choice.text)}</label>`;
-          });
+          q.choices.forEach(
+            (c) =>
+              (html += `<label style="display:block;margin:6px 0"><input type="radio" name="assess_${i}" value="${
+                c.k
+              }"> ${escapeHtml(c.t)}</label>`)
+          );
           html += `</div>`;
         });
-        html += `<div style="display:flex;gap:8px;align-items:center"><button type="button" class="btn" id="submitAssessment">Submit</button><button type="button" class="btn secondary" id="resetAssessment">Reset Answers</button></div>`;
-        html += `</form></div><div id="assessmentResultArea"></div>`;
-        $("#contentArea").innerHTML = html;
+        html += `<div style="display:flex;gap:8px;align-items:center"><button type="button" class="btn" id="submitAssessment">Submit</button><button type="button" class="btn secondary" id="resetAssessment">Reset</button></div></form></div><div id="assessmentResultArea"></div>`;
+        document.getElementById("contentArea").innerHTML = html;
 
-        // restore saved answers
+        // restore previous result if any
         const saved = JSON.parse(
           localStorage.getItem("ace_assessment_v1") || "{}"
         );
         if (saved && saved.answers) {
           Object.keys(saved.answers).forEach((k) => {
-            const el = $(`input[name="${k}"][value="${saved.answers[k]}"]`);
+            const el = document.querySelector(
+              `input[name="${k}"][value="${saved.answers[k]}"]`
+            );
             if (el) el.checked = true;
           });
         }
 
-        $("#submitAssessment").addEventListener("click", () => {
-          const form = document.getElementById("assessmentForm");
-          const answers = {};
-          let score = 0;
-          qs.forEach((q, i) => {
-            const name = `assess_${i}`;
-            const sel = form.querySelector(`input[name="${name}"]:checked`);
-            const val = sel ? sel.value : null;
-            answers[name] = val;
-            if (val === q.correct) score++;
-          });
-          const percent = Math.round((score / total) * 100);
-          const passed = percent >= 60;
-          const result = {
-            score,
-            total,
-            percent,
-            passed,
-            date: new Date().toISOString(),
-            answers,
-          };
-          localStorage.setItem("ace_assessment_v1", JSON.stringify(result));
-          state.assessmentResult = result;
-          if (passed) state.completed.add("m5");
-          saveState();
-          updateProgress();
+        document
+          .getElementById("submitAssessment")
+          .addEventListener("click", () => {
+            const form = document.getElementById("assessmentForm");
+            const answers = {};
+            let score = 0;
+            qs.forEach((q, i) => {
+              const name = `assess_${i}`;
+              const sel = form.querySelector(`input[name="${name}"]:checked`);
+              const val = sel ? sel.value : null;
+              answers[name] = val;
+              if (val === q.correct) score++;
+            });
+            const percent = Math.round((score / total) * 100);
+            const passed = percent >= 60;
+            const result = {
+              score,
+              total,
+              percent,
+              passed,
+              date: new Date().toISOString(),
+              answers,
+            };
+            localStorage.setItem("ace_assessment_v1", JSON.stringify(result));
+            state.assessmentResult = result;
+            if (passed) state.completed.add("m5");
+            saveState();
+            updateProgress();
 
-          const area = document.getElementById("assessmentResultArea");
-          area.innerHTML = `<div class="card"><div class="result"><strong>Score:</strong> ${score}/${total} (${percent}%) — <strong>${
-            passed ? "PASS" : "FAIL"
-          }</strong></div>
-            <div style="margin-top:12px"><label class="small">Enter learner name for certificate (optional): <input id="certName" type="text" style="margin-left:8px;padding:6px;border-radius:6px;border:1px solid #e6edf3"></label></div>
-            <div style="margin-top:12px" class="assess-controls"><button class="btn" id="downloadAssessmentCert" ${
-              passed ? "" : "disabled"
-            }>${
-            passed ? "Download Certificate" : "Download (locked until pass)"
-          }</button><button class="btn secondary" id="retakeAssessment">Retake</button></div></div>`;
-
-          $("#downloadAssessmentCert").addEventListener("click", () => {
-            const n = $("#certName").value || "Learner";
-            downloadCertificate(n, result);
+            const area = document.getElementById("assessmentResultArea");
+            area.innerHTML = `<div class="card"><div class="result"><strong>Score:</strong> ${score}/${total} (${percent}%) — <strong>${
+              passed ? "PASS" : "FAIL"
+            }</strong></div>
+        <div style="margin-top:12px"><label class="small">Learner name: <input id="certName" type="text" style="margin-left:8px;padding:6px;border-radius:6px;border:1px solid #e6edf3"></label></div>
+        <div style="margin-top:12px;display:flex;gap:8px"><button class="btn" id="downloadAssessmentCert" ${
+          passed ? "" : "disabled"
+        }>${
+              passed ? "Download Certificate" : "Locked until pass"
+            }</button><button class="btn secondary" id="retakeAssessment">Retake</button></div></div>`;
+            document
+              .getElementById("downloadAssessmentCert")
+              .addEventListener("click", () => {
+                const n =
+                  document.getElementById("certName").value || "Learner";
+                downloadCertificate(n, result);
+              });
+            document
+              .getElementById("retakeAssessment")
+              .addEventListener("click", () => {
+                localStorage.removeItem("ace_assessment_v1");
+                state.assessmentResult = null;
+                form
+                  .querySelectorAll("input[type=radio]")
+                  .forEach((r) => (r.checked = false));
+                area.innerHTML = "";
+              });
           });
-          $("#retakeAssessment").addEventListener("click", () => {
-            localStorage.removeItem("ace_assessment_v1");
-            state.assessmentResult = null;
+
+        document
+          .getElementById("resetAssessment")
+          .addEventListener("click", () => {
+            const form = document.getElementById("assessmentForm");
             form
               .querySelectorAll("input[type=radio]")
               .forEach((r) => (r.checked = false));
-            document.getElementById("assessmentResultArea").innerHTML = "";
+            localStorage.removeItem("ace_assessment_v1");
           });
-        });
-
-        $("#resetAssessment").addEventListener("click", () => {
-          const form = document.getElementById("assessmentForm");
-          form
-            .querySelectorAll("input[type=radio]")
-            .forEach((r) => (r.checked = false));
-          localStorage.removeItem("ace_assessment_v1");
-        });
       }
 
-      /* ========== completion / certificate ========== */
+      /* ------------------------
+     Certificates
+     ------------------------*/
       function downloadCertificate(name, result) {
         const canvas = document.createElement("canvas");
         canvas.width = 1200;
@@ -932,26 +1269,34 @@
         ctx.fillText(name, 60, 230);
         ctx.font = "22px serif";
         ctx.fillText(
-          "has successfully completed the ACE Micromatic module.",
+          "has successfully completed the ACE Micromatic training.",
           60,
           280
         );
-        ctx.font = "20px serif";
-        ctx.fillText(
-          `Score: ${result.score}/${result.total} (${result.percent}%)`,
-          60,
-          340
-        );
-        ctx.font = "18px serif";
-        ctx.fillText("Date: " + new Date().toLocaleDateString(), 60, 400);
-        const data = canvas.toDataURL("image/png");
+        if (result) {
+          ctx.font = "20px serif";
+          ctx.fillText(
+            `Score: ${result.score}/${result.total} (${result.percent}%)`,
+            60,
+            340
+          );
+          ctx.font = "18px serif";
+          ctx.fillText("Date: " + new Date().toLocaleDateString(), 60, 400);
+        }
         const a = document.createElement("a");
-        a.href = data;
+        a.href = canvas.toDataURL("image/png");
         a.download = "ACE_Micromatic_certificate.png";
         a.click();
       }
 
-      /* ========== general render handler (delegates) ========== */
+      /* ------------------------
+     General render control
+     ------------------------*/
+      function renderTOCAndTiles() {
+        renderTOC();
+        renderTiles();
+      }
+
       function renderContent() {
         const m = modules[state.current];
         if (!m) return;
@@ -962,23 +1307,19 @@
         renderModuleContent(m);
       }
 
-      function handleNext() {
-        if (state.current < modules.length - 1) goTo(state.current + 1);
-        else showCompletion();
-      }
-
       function goTo(idx) {
         state.current = idx;
-        renderTOC();
+        renderTOCAndTiles();
         renderContent();
+        scrollToViewer();
+        saveState();
       }
 
       function updateProgress() {
-        const pct = Math.round((state.completed.size / modules.length) * 100);
-        const pb = document.getElementById("progressBar");
-        if (pb) pb.style.width = pct + "%";
         const cc = document.getElementById("completedCount");
         if (cc) cc.textContent = state.completed.size;
+        const totalEl = document.getElementById("totalCount");
+        if (totalEl) totalEl.textContent = modules.length;
       }
 
       function saveState() {
@@ -991,43 +1332,22 @@
           })
         );
       }
-
       function loadState() {
-        const params = new URLSearchParams(window.location.search);
-        if (params.get("fresh") === "1") {
-          state.current = 0;
-          state.answers = {};
-          state.completed = new Set();
-          return;
-        }
         const s = localStorage.getItem("ace_training_v2");
-        if (!s) {
-          state.current = 0;
-          state.answers = {};
-          state.completed = new Set();
-          return;
-        }
+        if (!s) return;
         try {
           const d = JSON.parse(s);
-          const savedIndex = Number.isFinite(d.current)
-            ? parseInt(d.current, 10)
-            : 0;
           state.current =
-            Number.isInteger(savedIndex) &&
-            savedIndex >= 0 &&
-            savedIndex < modules.length
-              ? savedIndex
+            typeof d.current === "number" &&
+            d.current >= 0 &&
+            d.current < modules.length
+              ? d.current
               : 0;
-          state.answers =
-            d.answers && typeof d.answers === "object" ? d.answers : {};
+          state.answers = d.answers || {};
           state.completed = new Set(
             Array.isArray(d.completed) ? d.completed : []
           );
-        } catch (e) {
-          state.current = 0;
-          state.answers = {};
-          state.completed = new Set();
-        }
+        } catch (e) {}
       }
 
       function resetState() {
@@ -1038,7 +1358,7 @@
           state.answers = {};
           state.completed = new Set();
           state.assessmentResult = null;
-          renderTOC();
+          renderTOCAndTiles();
           renderContent();
           updateProgress();
         }
@@ -1047,28 +1367,60 @@
       function showCompletion() {
         document.getElementById(
           "contentArea"
-        ).innerHTML = `<div class="card certificate"><h2>Training completed</h2><p>You've completed the ACE Micromatic module.</p><p><button class="btn" id="downloadCert">Download Certificate</button></p></div>`;
+        ).innerHTML = `<div class="card certificate"><h2>Training completed</h2><p>You've completed the ACE Micromatic learning path.</p><p><button class="btn" id="downloadCert">Download Certificate</button></p></div>`;
         document
           .getElementById("downloadCert")
           .addEventListener("click", () => {
-            const res = state.assessmentResult ||
-              JSON.parse(
-                localStorage.getItem("ace_assessment_v1") || "null"
-              ) || { score: 0, total: 0, percent: 0 };
+            const res =
+              state.assessmentResult ||
+              JSON.parse(localStorage.getItem("ace_assessment_v1") || "{}") ||
+              {};
             downloadCertificate("Learner", res);
           });
       }
 
-      /* ========== init ========== */
-      loadState();
-      renderTOC();
-      renderContent();
-      updateProgress();
+      /* ------------------------
+     Init
+     ------------------------*/
+      document
+        .getElementById("startLearningBtn")
+        .addEventListener("click", () => {
+          goTo(0);
+        });
+      document.getElementById("visionBtn").addEventListener("click", () => {
+        alert(
+          "Vision: to make CNC learning accessible. Mission: practical training & certification."
+        );
+      });
       document.getElementById("resetBtn").addEventListener("click", resetState);
 
-      // keyboard navigation
+      // hero carousel init
+      initHeroCarousel(
+        document.getElementById("heroCarousel"),
+        [
+          "/images/Picture1.png",
+          "/images/Picture2.png",
+          "/images/Picture3.png",
+        ],
+        [
+          "Company timeline",
+          "CNC Machine introduction",
+          "Why AceMicromatic group",
+        ]
+      );
+
+      // initial load
+      loadState();
+      renderTOCAndTiles();
+      renderContent();
+      updateProgress();
+
+      // keyboard shortcuts
       window.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowRight") handleNext();
+        if (e.key === "ArrowRight") {
+          if (state.current < modules.length - 1) goTo(state.current + 1);
+          else showCompletion();
+        }
         if (e.key === "ArrowLeft" && state.current > 0) goTo(state.current - 1);
         if (e.ctrlKey && e.key.toLowerCase() === "s") {
           e.preventDefault();

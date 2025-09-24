@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ACE Micromatic — Training Module (HTML)</title>
+    <style>
+      :root {
+        --accent: #0f62fe;
+        --muted: #6b7280;
+        --header-height: 74px;
+        --nav-width: 280px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Inter, "Segoe UI", Roboto, system-ui, Arial;
+        margin: 0;
+        background: #f6f8fb;
+        color: #0b1220;
+      }
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--header-height);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px 24px;
+        background: rgba(255, 255, 255, 0.98);
+        border-bottom: 1px solid #e6edf3;
+        z-index: 1000;
+        backdrop-filter: blur(4px);
+      }
+      header img {
+        height: 44px;
+      }
+      .site-title {
+        display: flex;
+        flex-direction: column;
+      }
+      .site-title h1 {
+        margin: 0;
+        font-size: 18px;
+      }
+      .page-body {
+        padding-top: calc(var(--header-height) + 10px);
+      }
+
+      /* fixed left nav */
+      nav {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        bottom: 0;
+        width: var(--nav-width);
+        padding: 18px;
+        background: #fff;
+        border-right: 1px solid #e6edf3;
+        overflow: auto;
+      }
+      main {
+        margin-left: var(--nav-width);
+        padding: 28px;
+        min-height: calc(100vh - var(--header-height) - 10px);
+      }
+
+      .card {
+        background: #fff;
+        padding: 18px;
+        border-radius: 10px;
+        box-shadow: 0 6px 18px rgba(10, 20, 40, 0.04);
+        margin-bottom: 18px;
+      }
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .module {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+      }
+      .module.active {
+        background: linear-gradient(90deg, #eef6ff, #fff);
+        border-left: 4px solid var(--accent);
+      }
+      .lesson-title {
+        font-size: 18px;
+        margin: 6px 0;
+      }
+
+      .btn {
+        background: var(--accent);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 0;
+        cursor: pointer;
+      }
+      .btn.secondary {
+        background: #eef2ff;
+        color: var(--accent);
+      }
+      .kbd {
+        background: #111827;
+        color: #fff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 12px;
+      }
+      .note {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      ol {
+        font-size: 30px;
+        list-style-type: none;
+        counter-reset: custom-step;
+      }
+      ol li {
+        counter-increment: custom-step;
+        margin-bottom: 5px;
+      }
+      ol li::before {
+        content: "Step " counter(custom-step) ": ";
+        color: purple;
+        font-weight: bold;
+        margin-right: 5px;
+      }
+
+      /* Combined media tabs */
+      .tabs {
+        display: flex;
+        gap: 8px;
+        border-bottom: 1px solid #eef3fb;
+        margin-bottom: 12px;
+      }
+      .tab {
+        padding: 8px 12px;
+        border-radius: 8px 8px 0 0;
+        background: #f8fafc;
+        cursor: pointer;
+        color: var(--muted);
+      }
+      .tab.active {
+        background: #fff;
+        color: #0b1220;
+        border: 1px solid #eef3fb;
+        border-bottom: 1px solid #fff;
+      }
+      .tab.hidden {
+        display: none;
+      }
+
+      /* carousel */
+      .carousel {
+        position: relative;
+        max-width: 100%;
+        overflow: hidden;
+        border-radius: 8px;
+      }
+      .carousel-window {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f3f6fb;
+      }
+      .carousel-image {
+        width: 75%;
+        height: 75%;
+        object-fit: cover;
+        display: block;
+      }
+      .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(15, 98, 254, 0.8);
+        border: none;
+        color: #fff;
+        font-size: 22px;
+        padding: 8px 12px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 2;
+      }
+      .carousel-btn.prev {
+        left: 12px;
+      }
+      .carousel-btn.next {
+        right: 12px;
+      }
+      .carousel-dots {
+        text-align: center;
+        margin-top: 8px;
+      }
+      .carousel-dots span {
+        height: 10px;
+        width: 10px;
+        margin: 0 4px;
+        display: inline-block;
+        background: #ddd;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .carousel-dots span.active {
+        background: var(--accent);
+      }
+
+      .video-wrap {
+        width: 100%;
+        height: 320px;
+        background: #000;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
+      .no-media {
+        padding: 18px;
+        border-radius: 8px;
+        background: #fff4f0;
+        color: #6b2b2b;
+        border: 1px solid #ffd6cc;
+      }
+
+      /* assessment */
+      .assess-q {
+        margin-bottom: 18px;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #eef3fb;
+        background: #fafcff;
+      }
+      .assess-q h4 {
+        margin: 0 0 8px 0;
+        font-size: 15px;
+      }
+      .assess-controls {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-top: 12px;
+      }
+      .result {
+        padding: 12px;
+        border-radius: 8px;
+        background: #f8fff4;
+        border: 1px solid #ddf5d8;
+        color: #064e1a;
+      }
+
+      @media (max-width: 900px) {
+        nav {
+          display: none;
+        }
+        main {
+          margin-left: 0;
+          padding: 18px;
+        }
+        .carousel-window,
+        .video-wrap {
+          height: 200px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <img src="/images/logo.png" alt="logo" />
+      <div class="site-title">
+        <h1>ACE Micromatic — Machining Operations Training</h1>
+        <div class="small">
+          Modular HTML training • Progress saved locally • Compact media card
+        </div>
+      </div>
+      <div style="flex: 1"></div>
+      <div style="display: flex; gap: 8px; align-items: center">
+        <button class="btn secondary" id="resetBtn">Reset</button>
+      </div>
+    </header>
+
+    <div class="page-body">
+      <nav id="toc">
+        <div class="card">
+          <strong>Modules</strong>
+          <div class="small" style="margin-top: 6px">
+            Click a lesson to load content.
+          </div>
+        </div>
+        <div id="modulesList"></div>
+        <div class="card" style="margin-top: 12px">
+          <div class="small">Progress</div>
+          <div class="small" style="margin-top: 6px">
+            Completed: <span id="completedCount">0</span>/<span id="totalCount"
+              >0</span
+            >
+          </div>
+        </div>
+      </nav>
+
+      <main>
+        <div id="contentArea">
+          <div class="card">
+            <h2>Welcome</h2>
+            <p>Select a module to begin.</p>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <template id="moduleContentTpl">
+      <div>
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: start;
+            "
+          >
+            <div>
+              <div class="lesson-title">{{title}}</div>
+              <div class="small">{{subtitle}}</div>
+            </div>
+            <div class="small">Estimated time: <strong>{{time}}</strong></div>
+          </div>
+        </div>
+
+        <!-- Combined media card -->
+        <div class="card">
+          <div class="tabs">
+            <div class="tab tab-images">Images</div>
+            <div class="tab tab-video">Video</div>
+            <div class="tab tab-steps">Steps</div>
+          </div>
+
+          <h3>Overview</h3>
+          <p>{{overview}}</p>
+
+          <div class="media-content">
+            <div class="media-images" style="display: none">
+              <div class="carousel">
+                <button class="carousel-btn prev" aria-label="Previous">
+                  &#10094;
+                </button>
+                <div class="carousel-window">
+                  <img
+                    class="carousel-image"
+                    src="/images/Picture1.png"
+                    alt="slide"
+                  />
+                </div>
+                <button class="carousel-btn next" aria-label="Next">
+                  &#10095;
+                </button>
+              </div>
+              <div
+                class="carousel-dots"
+                style="text-align: center; margin-top: 8px"
+              ></div>
+            </div>
+
+            <div class="media-video" style="display: none">
+              <div class="video-wrap" id="videoPlaceholder">
+                Replace with video or embed
+              </div>
+            </div>
+
+            <div class="media-steps" style="display: none">
+              <ol class="smallsteps">
+                {{steps}}
+              </ol>
+            </div>
+
+            <div class="media-none" style="display: none">
+              <div class="no-media">
+                No media (images/video/steps) available for this lesson.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card quiz">
+          <h3>Quick Check</h3>
+          <div class="q"><strong>1.</strong> {{q1}}</div>
+          <div>
+            <label><input type="radio" name="q1" value="a" /> {{q1a}}</label
+            ><br />
+            <label><input type="radio" name="q1" value="b" /> {{q1b}}</label
+            ><br />
+            <label><input type="radio" name="q1" value="c" /> {{q1c}}</label>
+          </div>
+        </div>
+
+        <footer class="controls card">
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <button class="btn" id="prevBtn">Previous</button>
+              <button class="btn" id="nextBtn">Next</button>
+            </div>
+            <div class="note">
+              *Use tabs to switch Images / Video / Steps without extra
+              scrolling.
+            </div>
+          </div>
+        </footer>
+      </div>
+    </template>
+
+    <script>
+      /* ========== utilities ========== */
+      function $(sel, ctx = document) {
+        return ctx.querySelector(sel);
+      }
+      function $all(sel, ctx = document) {
+        return Array.from((ctx || document).querySelectorAll(sel));
+      }
+      function escapeHtml(s) {
+        return (s || "")
+          .toString()
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      /* ========== carousel initializer (idempotent) ========== */
+      function initCarousel(container, images) {
+        if (!container || !images || !images.length) return;
+        if (container.dataset.carouselInit === "1") return;
+        container.dataset.carouselInit = "1";
+
+        let windowImg = container.querySelector(".carousel-window img");
+        const btnPrev = container.querySelector(".carousel-btn.prev");
+        const btnNext = container.querySelector(".carousel-btn.next");
+        const dotsContainer = container.querySelector(".carousel-dots");
+
+        if (!windowImg) {
+          const win = document.createElement("div");
+          win.className = "carousel-window";
+          const img = document.createElement("img");
+          img.className = "carousel-image";
+          win.appendChild(img);
+          container.insertBefore(win, container.firstChild);
+          windowImg = img;
+        }
+
+        dotsContainer.innerHTML = "";
+        images.forEach((_, i) => {
+          const dot = document.createElement("span");
+          dot.addEventListener("click", () => {
+            idx = i;
+            render();
+          });
+          dotsContainer.appendChild(dot);
+        });
+
+        let idx = 0;
+        function render() {
+          windowImg.src = images[idx];
+          dotsContainer
+            .querySelectorAll("span")
+            .forEach((d, i) => d.classList.toggle("active", i === idx));
+        }
+        if (btnPrev)
+          btnPrev.addEventListener("click", () => {
+            idx = (idx - 1 + images.length) % images.length;
+            render();
+          });
+        if (btnNext)
+          btnNext.addEventListener("click", () => {
+            idx = (idx + 1) % images.length;
+            render();
+          });
+
+        render();
+      }
+
+      /* ========== video loader ========== */
+      function loadVideo(area, url) {
+        area.innerHTML = "";
+        if (!url) {
+          area.innerHTML = '<div class="video-wrap">No video provided</div>';
+          return;
+        }
+        try {
+          const u = new URL(url);
+          if (u.hostname.includes("youtube.com") || u.hostname === "youtu.be") {
+            let id = null;
+            if (u.hostname.includes("youtube.com"))
+              id = u.searchParams.get("v");
+            if (u.hostname === "youtu.be") id = u.pathname.slice(1);
+            if (id) {
+              const iframe = document.createElement("iframe");
+              iframe.width = "100%";
+              iframe.height = "100%";
+              iframe.src = "https://www.youtube.com/embed/" + id;
+              iframe.frameBorder = 0;
+              iframe.allow =
+                "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+              iframe.allowFullscreen = true;
+              const wrap = document.createElement("div");
+              wrap.style.height = "320px";
+              wrap.appendChild(iframe);
+              area.appendChild(wrap);
+              return;
+            }
+          }
+        } catch (e) {}
+        if (url.match(/\.(mp4|webm|ogg)$/i)) {
+          const v = document.createElement("video");
+          v.controls = true;
+          v.style.width = "100%";
+          v.style.height = "320px";
+          const src = document.createElement("source");
+          src.src = url;
+          v.appendChild(src);
+          area.appendChild(v);
+        } else {
+          const a = document.createElement("a");
+          a.href = url;
+          a.target = "_blank";
+          a.textContent = "Open video link";
+          area.appendChild(a);
+        }
+      }
+
+      /* ========== modules ========== */
+      const modules = [
+        {
+          id: "m1",
+          title: "Introduction — AMG Group",
+          subtitle: "Company overview & scope",
+          time: "5 mins",
+          summary: "Intro + images + video",
+          overview:
+            "AMG group of companies brief overview, areas of operation, facilities, and key capabilities. Use company photos to make this slide more engaging.",
+          images: [
+            "/images/Picture1.png",
+            "/images/Picture2.png",
+            "/images/Picture3.png",
+            "/images/Picture4.png",
+            "/images/Picture5.png",
+          ],
+          video: "",
+          steps: "",
+          q1: "Which area is NOT typically a part of AMG group?",
+          q1a: "Manufacturing",
+          q1b: "Banking",
+          q1c: "Service Support",
+        },
+        {
+          id: "m2",
+          title: "Facing — Operation",
+          subtitle: "Lathe facing operation",
+          overview:
+            "Facing is a lathe operation in which a cutting tool removes material from the end of a rotating workpiece to produce a flat surface perpendicular to the workpieces axis of rotation.",
+          time: "8 mins",
+          summary: "Facing description and setup",
+          images: ["/images/Picture8.png"],
+          video: "/images/ACE MICROMATICS_POC.mp4",
+          steps:
+            "<li>The workpiece rotates on the spindle.</li><li>The cutting tool moves radially  across the face of the workpiece.</li><li>Can be done manually or automatically on a CNC lathe</li><li>Usually performed with a facing tool, mounted in the turret/tool post.</li>",
+          q1: "Facing primarily produces what?",
+          q1a: "Flat surface perpendicular to axis",
+          q1b: "Tapered surface",
+          q1c: "Internal bore",
+        },
+        {
+          id: "m3",
+          title: "Turning — Operation",
+          subtitle: "External turning basics",
+          overview:
+            "Turning is a machining process in which a cutting tool, typically a non-rotary tool bit, moves linearly while the workpiece rotates. The primary purpose of turning is to produce cylindrical parts by removing material from the outer diameter of a rotating workpiece.",
+          time: "10 mins",
+          summary: "Turning overview",
+          images: ["/images/Picture9.png"],
+          video: "",
+          steps:
+            "<li>The workpiece rotates, and the cutting tool moves linearly.</li><li>Commonly performed on a lathe or CNC turning machine.</li><li>Used to produce parts like shafts, rods, pins, and bushings.</li>",
+          q1: "Turning is typically used to make which part?",
+          q1a: "Shaft",
+          q1b: "Flat plate",
+          q1c: "Weld joint",
+        },
+        {
+          id: "m4",
+          title: "Tools & Safety",
+          subtitle: "Holders, inserts & safety",
+          overview:
+            "Covers tool holders, inserts, coolant usage, PPE and safety checks prior to operation.",
+          time: "6 mins",
+          summary: "Tooling types and safety",
+          images: ["/images/Picture10.png"],
+          video: "",
+          steps:
+            "<li>Wear PPE</li><li>Check guards</li><li>Ensure correct clamping</li>",
+          q1: "Which PPE is essential for turning?",
+          q1a: "Safety goggles",
+          q1b: "High heels",
+          q1c: "Sunglasses",
+        },
+        {
+          id: "m5",
+          title: "Summary & Assessment",
+          subtitle: "Consolidated assessment of module questions",
+          time: "15-20 mins",
+          summary: "Take the module-level assessment (all questions combined).",
+          images: [],
+          video: "",
+          steps: "",
+        },
+      ];
+
+      /* ========== state ========== */
+      const state = {
+        current: 0,
+        answers: {},
+        completed: new Set(),
+        assessmentResult: null,
+      };
+
+      /* ========== render TOC ========== */
+      function renderTOC() {
+        const list = $("#modulesList");
+        list.innerHTML = "";
+        modules.forEach((m, i) => {
+          const div = document.createElement("div");
+          div.className = "module";
+          div.dataset.id = m.id;
+          if (i === state.current) div.classList.add("active");
+          div.innerHTML = `<div><strong>${escapeHtml(
+            m.title
+          )}</strong></div><div class="small">${escapeHtml(
+            m.summary || ""
+          )}</div>`;
+          div.addEventListener("click", () => goTo(i));
+          list.appendChild(div);
+        });
+        const totalEl = document.getElementById("totalCount");
+        if (totalEl) totalEl.textContent = modules.length;
+      }
+
+      /* ========== render a normal module page (media + quiz) ========== */
+      function renderModuleContent(m) {
+        const tpl = $("#moduleContentTpl").innerHTML;
+        const html = tpl
+          .replace(/{{title}}/g, escapeHtml(m.title || ""))
+          .replace(/{{subtitle}}/g, escapeHtml(m.subtitle || ""))
+          .replace(/{{time}}/g, escapeHtml(m.time || ""))
+          .replace(/{{overview}}/g, escapeHtml(m.overview || ""))
+          .replace(/{{steps}}/g, m.steps || "")
+          .replace(/{{q1}}/g, escapeHtml(m.q1 || ""))
+          .replace(/{{q1a}}/g, escapeHtml(m.q1a || ""))
+          .replace(/{{q1b}}/g, escapeHtml(m.q1b || ""))
+          .replace(/{{q1c}}/g, escapeHtml(m.q1c || ""));
+        $("#contentArea").innerHTML = html;
+
+        const content = document.getElementById("contentArea");
+        const tabImages = content.querySelector(".tab-images");
+        const tabVideo = content.querySelector(".tab-video");
+        const tabSteps = content.querySelector(".tab-steps");
+        const areaImages = content.querySelector(".media-images");
+        const areaVideo = content.querySelector(".media-video");
+        const areaSteps = content.querySelector(".media-steps");
+        const areaNone = content.querySelector(".media-none");
+
+        const hasImages = Array.isArray(m.images) && m.images.length > 0;
+        const hasVideo = !!(m.video && m.video.toString().trim());
+        const hasSteps = !!(m.steps && m.steps.toString().trim());
+
+        tabImages && tabImages.classList.toggle("hidden", !hasImages);
+        tabVideo && tabVideo.classList.toggle("hidden", !hasVideo);
+        tabSteps && tabSteps.classList.toggle("hidden", !hasSteps);
+
+        if (areaImages) areaImages.style.display = "none";
+        if (areaVideo) areaVideo.style.display = "none";
+        if (areaSteps) areaSteps.style.display = "none";
+        if (areaNone) areaNone.style.display = "none";
+
+        function activateTab(name) {
+          [tabImages, tabVideo, tabSteps].forEach(
+            (t) => t && t.classList.remove("active")
+          );
+          [areaImages, areaVideo, areaSteps, areaNone].forEach(
+            (a) => a && (a.style.display = "none")
+          );
+
+          if (name === "images" && hasImages) {
+            tabImages && tabImages.classList.add("active");
+            areaImages && (areaImages.style.display = "block");
+            if (areaImages && !areaImages.dataset.init) {
+              initCarousel(areaImages, m.images);
+              areaImages.dataset.init = "1";
+            }
+            return;
+          }
+          if (name === "video" && hasVideo) {
+            tabVideo && tabVideo.classList.add("active");
+            areaVideo && (areaVideo.style.display = "block");
+            if (areaVideo) loadVideo(areaVideo, m.video);
+            return;
+          }
+          if (name === "steps" && hasSteps) {
+            tabSteps && tabSteps.classList.add("active");
+            areaSteps && (areaSteps.style.display = "block");
+            return;
+          }
+          if (areaNone) areaNone.style.display = "block";
+        }
+
+        // attach tabs (remove previous listeners by cloning)
+        [tabImages, tabVideo, tabSteps].forEach((t) => {
+          if (!t) return;
+          const clone = t.cloneNode(true);
+          t.parentNode.replaceChild(clone, t);
+        });
+
+        // re-select after clone
+        const tabImages2 = content.querySelector(".tab-images");
+        const tabVideo2 = content.querySelector(".tab-video");
+        const tabSteps2 = content.querySelector(".tab-steps");
+
+        tabImages2 &&
+          tabImages2.addEventListener("click", () => activateTab("images"));
+        tabVideo2 &&
+          tabVideo2.addEventListener("click", () => activateTab("video"));
+        tabSteps2 &&
+          tabSteps2.addEventListener("click", () => activateTab("steps"));
+
+        // choose default
+        if (hasImages) activateTab("images");
+        else if (hasVideo) activateTab("video");
+        else if (hasSteps) activateTab("steps");
+        else activateTab("none");
+
+        // Prev/Next wiring — avoid duplicate listeners by replacing buttons
+        const prevBtn = content.querySelector("#prevBtn");
+        const nextBtn = content.querySelector("#nextBtn");
+        if (prevBtn) {
+          const prevClone = prevBtn.cloneNode(true);
+          prevBtn.parentNode.replaceChild(prevClone, prevBtn);
+        }
+        if (nextBtn) {
+          const nextClone = nextBtn.cloneNode(true);
+          nextBtn.parentNode.replaceChild(nextClone, nextBtn);
+        }
+        const prevBtn2 = content.querySelector("#prevBtn");
+        const nextBtn2 = content.querySelector("#nextBtn");
+        prevBtn2 &&
+          prevBtn2.addEventListener("click", () => {
+            if (state.current > 0) goTo(state.current - 1);
+          });
+        nextBtn2 &&
+          nextBtn2.addEventListener("click", () => {
+            // capture per-module quiz answer (if present)
+            const selected = content.querySelector(`input[name='q1']:checked`);
+            if (selected) {
+              state.answers[m.id] = selected.value;
+              // treat 'a' as correct in this POC
+              if (selected.value === "a") state.completed.add(m.id);
+              saveState();
+              updateProgress();
+            }
+            if (state.current < modules.length - 1) goTo(state.current + 1);
+            else showCompletion();
+          });
+
+        // restore per-module answer if present
+        const ans = state.answers[m.id];
+        if (ans) {
+          const r = content.querySelector(`input[name='q1'][value='${ans}']`);
+          if (r) r.checked = true;
+        }
+      } // renderModuleContent end
+
+      /* ========== assessment builder & renderer (m5) ========== */
+      function buildAssessmentQuestions() {
+        const questions = [];
+        modules.forEach((m) => {
+          if (m.q1 && m.q1.toString().trim()) {
+            questions.push({
+              id: m.id,
+              q: m.q1,
+              choices: [
+                { key: "a", text: m.q1a || "" },
+                { key: "b", text: m.q1b || "" },
+                { key: "c", text: m.q1c || "" },
+              ],
+              correct: "a",
+            });
+          }
+        });
+        return questions;
+      }
+
+      function renderAssessment() {
+        const qs = buildAssessmentQuestions();
+        const total = qs.length;
+        let html = `<div class="card"><div style="display:flex;justify-content:space-between;align-items:start"><div><div class="lesson-title">Summary & Assessment</div><div class="small">Consolidated assessment of module questions</div></div><div class="small">Estimated time: <strong>${Math.max(
+          10,
+          total * 2
+        )} mins</strong></div></div></div>`;
+
+        if (total === 0) {
+          html += `<div class="card"><p>No assessment questions available.</p></div>`;
+          $("#contentArea").innerHTML = html;
+          return;
+        }
+
+        html += `<div class="card"><p class="small">Answer all questions below and click Submit to grade.</p><form id="assessmentForm">`;
+        qs.forEach((q, i) => {
+          html += `<div class="assess-q"><h4>Q${i + 1}. ${escapeHtml(
+            q.q
+          )}</h4>`;
+          q.choices.forEach((choice) => {
+            const name = `assess_${i}`;
+            const id = `assess_${i}_${choice.key}`;
+            html += `<label style="display:block;margin:6px 0"><input type="radio" name="${name}" value="${
+              choice.key
+            }" id="${id}"> ${escapeHtml(choice.text)}</label>`;
+          });
+          html += `</div>`;
+        });
+        html += `<div style="display:flex;gap:8px;align-items:center"><button type="button" class="btn" id="submitAssessment">Submit</button><button type="button" class="btn secondary" id="resetAssessment">Reset Answers</button></div>`;
+        html += `</form></div><div id="assessmentResultArea"></div>`;
+        $("#contentArea").innerHTML = html;
+
+        // restore saved answers
+        const saved = JSON.parse(
+          localStorage.getItem("ace_assessment_v1") || "{}"
+        );
+        if (saved && saved.answers) {
+          Object.keys(saved.answers).forEach((k) => {
+            const el = $(`input[name="${k}"][value="${saved.answers[k]}"]`);
+            if (el) el.checked = true;
+          });
+        }
+
+        $("#submitAssessment").addEventListener("click", () => {
+          const form = document.getElementById("assessmentForm");
+          const answers = {};
+          let score = 0;
+          qs.forEach((q, i) => {
+            const name = `assess_${i}`;
+            const sel = form.querySelector(`input[name="${name}"]:checked`);
+            const val = sel ? sel.value : null;
+            answers[name] = val;
+            if (val === q.correct) score++;
+          });
+          const percent = Math.round((score / total) * 100);
+          const passed = percent >= 60;
+          const result = {
+            score,
+            total,
+            percent,
+            passed,
+            date: new Date().toISOString(),
+            answers,
+          };
+          localStorage.setItem("ace_assessment_v1", JSON.stringify(result));
+          state.assessmentResult = result;
+          if (passed) state.completed.add("m5");
+          saveState();
+          updateProgress();
+
+          const area = document.getElementById("assessmentResultArea");
+          area.innerHTML = `<div class="card"><div class="result"><strong>Score:</strong> ${score}/${total} (${percent}%) — <strong>${
+            passed ? "PASS" : "FAIL"
+          }</strong></div>
+            <div style="margin-top:12px"><label class="small">Enter learner name for certificate (optional): <input id="certName" type="text" style="margin-left:8px;padding:6px;border-radius:6px;border:1px solid #e6edf3"></label></div>
+            <div style="margin-top:12px" class="assess-controls"><button class="btn" id="downloadAssessmentCert" ${
+              passed ? "" : "disabled"
+            }>${
+            passed ? "Download Certificate" : "Download (locked until pass)"
+          }</button><button class="btn secondary" id="retakeAssessment">Retake</button></div></div>`;
+
+          $("#downloadAssessmentCert").addEventListener("click", () => {
+            const n = $("#certName").value || "Learner";
+            downloadCertificate(n, result);
+          });
+          $("#retakeAssessment").addEventListener("click", () => {
+            localStorage.removeItem("ace_assessment_v1");
+            state.assessmentResult = null;
+            form
+              .querySelectorAll("input[type=radio]")
+              .forEach((r) => (r.checked = false));
+            document.getElementById("assessmentResultArea").innerHTML = "";
+          });
+        });
+
+        $("#resetAssessment").addEventListener("click", () => {
+          const form = document.getElementById("assessmentForm");
+          form
+            .querySelectorAll("input[type=radio]")
+            .forEach((r) => (r.checked = false));
+          localStorage.removeItem("ace_assessment_v1");
+        });
+      }
+
+      /* ========== completion / certificate ========== */
+      function downloadCertificate(name, result) {
+        const canvas = document.createElement("canvas");
+        canvas.width = 1200;
+        canvas.height = 675;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#08306b";
+        ctx.font = "36px serif";
+        ctx.fillText("Certificate of Completion", 60, 120);
+        ctx.fillStyle = "#111";
+        ctx.font = "28px serif";
+        ctx.fillText("This certifies that", 60, 180);
+        ctx.font = "30px serif";
+        ctx.fillText(name, 60, 230);
+        ctx.font = "22px serif";
+        ctx.fillText(
+          "has successfully completed the ACE Micromatic module.",
+          60,
+          280
+        );
+        ctx.font = "20px serif";
+        ctx.fillText(
+          `Score: ${result.score}/${result.total} (${result.percent}%)`,
+          60,
+          340
+        );
+        ctx.font = "18px serif";
+        ctx.fillText("Date: " + new Date().toLocaleDateString(), 60, 400);
+        const data = canvas.toDataURL("image/png");
+        const a = document.createElement("a");
+        a.href = data;
+        a.download = "ACE_Micromatic_certificate.png";
+        a.click();
+      }
+
+      /* ========== general render handler (delegates) ========== */
+      function renderContent() {
+        const m = modules[state.current];
+        if (!m) return;
+        if (m.id === "m5") {
+          renderAssessment();
+          return;
+        }
+        renderModuleContent(m);
+      }
+
+      function handleNext() {
+        if (state.current < modules.length - 1) goTo(state.current + 1);
+        else showCompletion();
+      }
+
+      function goTo(idx) {
+        state.current = idx;
+        renderTOC();
+        renderContent();
+      }
+
+      function updateProgress() {
+        const pct = Math.round((state.completed.size / modules.length) * 100);
+        const pb = document.getElementById("progressBar");
+        if (pb) pb.style.width = pct + "%";
+        const cc = document.getElementById("completedCount");
+        if (cc) cc.textContent = state.completed.size;
+      }
+
+      function saveState() {
+        localStorage.setItem(
+          "ace_training_v2",
+          JSON.stringify({
+            current: state.current,
+            answers: state.answers,
+            completed: Array.from(state.completed),
+          })
+        );
+      }
+
+      function loadState() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("fresh") === "1") {
+          state.current = 0;
+          state.answers = {};
+          state.completed = new Set();
+          return;
+        }
+        const s = localStorage.getItem("ace_training_v2");
+        if (!s) {
+          state.current = 0;
+          state.answers = {};
+          state.completed = new Set();
+          return;
+        }
+        try {
+          const d = JSON.parse(s);
+          const savedIndex = Number.isFinite(d.current)
+            ? parseInt(d.current, 10)
+            : 0;
+          state.current =
+            Number.isInteger(savedIndex) &&
+            savedIndex >= 0 &&
+            savedIndex < modules.length
+              ? savedIndex
+              : 0;
+          state.answers =
+            d.answers && typeof d.answers === "object" ? d.answers : {};
+          state.completed = new Set(
+            Array.isArray(d.completed) ? d.completed : []
+          );
+        } catch (e) {
+          state.current = 0;
+          state.answers = {};
+          state.completed = new Set();
+        }
+      }
+
+      function resetState() {
+        if (confirm("Reset progress?")) {
+          localStorage.removeItem("ace_training_v2");
+          localStorage.removeItem("ace_assessment_v1");
+          state.current = 0;
+          state.answers = {};
+          state.completed = new Set();
+          state.assessmentResult = null;
+          renderTOC();
+          renderContent();
+          updateProgress();
+        }
+      }
+
+      function showCompletion() {
+        document.getElementById(
+          "contentArea"
+        ).innerHTML = `<div class="card certificate"><h2>Training completed</h2><p>You've completed the ACE Micromatic module.</p><p><button class="btn" id="downloadCert">Download Certificate</button></p></div>`;
+        document
+          .getElementById("downloadCert")
+          .addEventListener("click", () => {
+            const res = state.assessmentResult ||
+              JSON.parse(
+                localStorage.getItem("ace_assessment_v1") || "null"
+              ) || { score: 0, total: 0, percent: 0 };
+            downloadCertificate("Learner", res);
+          });
+      }
+
+      /* ========== init ========== */
+      loadState();
+      renderTOC();
+      renderContent();
+      updateProgress();
+      document.getElementById("resetBtn").addEventListener("click", resetState);
+
+      // keyboard navigation
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") handleNext();
+        if (e.key === "ArrowLeft" && state.current > 0) goTo(state.current - 1);
+        if (e.ctrlKey && e.key.toLowerCase() === "s") {
+          e.preventDefault();
+          saveState();
+          alert("Progress saved locally.");
+        }
+      });
+    </script>
+  </body>
+</html>
